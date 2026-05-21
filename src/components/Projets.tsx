@@ -12,7 +12,7 @@ const projects = [
     tag: "PWA · IA · Anti-gaspi",
     description:
       "Application progressive qui utilise l'IA pour suggérer des recettes à partir de vos ingrédients disponibles. Réduit le gaspillage alimentaire et simplifie les courses.",
-    tech: ["Next.js", "OpenAI", "PWA", "Tailwind CSS"],
+    tech: ["Next.js", "Gemini AI", "PWA", "Tailwind CSS"],
     flagship: true,
   },
   {

@@ -3,6 +3,7 @@ import { Space_Grotesk } from "next/font/google";
 import Providers from "@/components/Providers";
 import CookieBanner from "@/components/CookieBanner";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import ScrollToTop from "@/components/ScrollToTop";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -26,6 +27,21 @@ export const metadata: Metadata = {
     siteName: "GregoDev",
     locale: "fr_FR",
     type: "website",
+    images: [
+      {
+        url: "https://gregodev.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GregoDev — Développeur Freelance Bordeaux",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GregoDev — Développeur Freelance Bordeaux",
+    description:
+      "Sites vitrines, applications SaaS et outils internes pour freelances et petites entreprises à Bordeaux.",
+    images: ["https://gregodev.com/og-image.png"],
   },
 };
 
@@ -39,6 +55,7 @@ export default function RootLayout({
       <body className="min-h-full bg-background text-foreground antialiased">
         <Providers>
           {children}
+          <ScrollToTop />
           <CookieBanner />
           <GoogleAnalytics />
         </Providers>

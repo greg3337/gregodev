@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0A0A0F"/>
+  <rect x="80" y="80" width="1040" height="470" rx="24" fill="#111119" stroke="#2563EB" stroke-width="1.5" stroke-opacity="0.3"/>
+  <text x="600" y="260" font-family="system-ui, sans-serif" font-weight="700" font-size="96" fill="#2563EB" text-anchor="middle">GregoDev</text>
+  <text x="600" y="360" font-family="system-ui, sans-serif" font-weight="400" font-size="40" fill="#94A3B8" text-anchor="middle">Développeur Freelance · Bordeaux</text>
+  <text x="600" y="440" font-family="system-ui, sans-serif" font-weight="400" font-size="28" fill="#64748B" text-anchor="middle">Sites vitrines · SaaS · Outils internes</text>
+</svg>

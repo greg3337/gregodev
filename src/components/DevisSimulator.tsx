@@ -33,42 +33,39 @@ const pageRanges = {
 };
 
 const featuresList = [
-  { id: "contact", icon: Mail, label: "Formulaire de contact", price: 0 },
-  { id: "blog", icon: BookOpen, label: "Blog / Articles", price: 300 },
-  { id: "auth", icon: Lock, label: "Authentification", price: 600 },
-  { id: "paiement", icon: CreditCard, label: "Paiement en ligne", price: 900 },
-  { id: "ia", icon: Brain, label: "Intégration IA", price: 1200 },
-  { id: "dashboard", icon: LayoutDashboard, label: "Dashboard admin", price: 800 },
+  { id: "contact", icon: Mail, label: "Formulaire de contact" },
+  { id: "blog", icon: BookOpen, label: "Blog / Articles" },
+  { id: "auth", icon: Lock, label: "Authentification" },
+  { id: "paiement", icon: CreditCard, label: "Paiement en ligne" },
+  { id: "ia", icon: Brain, label: "Intégration IA" },
+  { id: "dashboard", icon: LayoutDashboard, label: "Dashboard admin" },
 ];
 
 const timelines = [
-  { id: "urgent", icon: Zap, label: "Urgent", desc: "Livraison en moins de 2 semaines", badge: "+20%", badgeColor: "bg-orange-500/10 text-orange-400" },
-  { id: "standard", icon: Clock, label: "Standard", desc: "2 à 4 semaines", badge: null, badgeColor: "" },
-  { id: "flexible", icon: Calendar, label: "Flexible", desc: "Plus d'un mois", badge: "-5%", badgeColor: "bg-green-500/10 text-green-400" },
+  { id: "urgent", icon: Zap, label: "Urgent", desc: "Livraison en moins de 2 semaines" },
+  { id: "standard", icon: Clock, label: "Standard", desc: "2 à 4 semaines" },
+  { id: "flexible", icon: Calendar, label: "Flexible", desc: "Plus d'un mois" },
 ];
 
 const STEPS = ["Projet", "Volume", "Options", "Délai"];
 
 // ─── Price logic ─────────────────────────────────────────────────────────────
 
-const featureCosts: Record<string, number> = {
-  contact: 0, blog: 300, auth: 600, paiement: 900, ia: 1200, dashboard: 800,
-};
+const ADVANCED_FEATURES = new Set(["auth", "paiement", "ia", "dashboard"]);
 
-function calcEstimate(type: string, pages: string, features: string[], timeline: string) {
-  let base = 0;
-  if (type === "vitrine") {
-    base = pages === "1-3" ? 490 : pages === "4-8" ? 1200 : pages === "9-15" ? 1800 : 2500;
-  } else if (type === "saas") {
-    base = pages === "1-3" ? 1500 : pages === "4-8" ? 2500 : pages === "9-15" ? 3500 : 5000;
-  } else {
-    base = pages === "1-3" ? 1200 : pages === "4-8" ? 1800 : pages === "9-15" ? 2500 : 3500;
+function getQuote(type: string, pages: string, features: string[]): {
+  plan: "starter" | "vitrine-pro" | "sur-mesure";
+  price: string;
+  planLabel: string;
+} {
+  const hasAdvanced = features.some((f) => ADVANCED_FEATURES.has(f));
+  if (type === "vitrine" && pages === "1-3" && !hasAdvanced) {
+    return { plan: "starter", price: "490€", planLabel: "Starter" };
   }
-  const extras = features.reduce((s, f) => s + (featureCosts[f] ?? 0), 0);
-  const mult = timeline === "urgent" ? 1.2 : timeline === "flexible" ? 0.95 : 1;
-  const total = Math.round(((base + extras) * mult) / 100) * 100;
-  const plan = total <= 600 ? "Starter" : total <= 1400 ? "Vitrine Pro" : "Sur-mesure";
-  return { total, base, extras, plan };
+  if (type === "vitrine" && pages === "4-8" && !hasAdvanced) {
+    return { plan: "vitrine-pro", price: "1 200€", planLabel: "Vitrine Pro" };
+  }
+  return { plan: "sur-mesure", price: "À partir de 1 500€", planLabel: "Sur-mesure" };
 }
 
 // ─── Animation ───────────────────────────────────────────────────────────────
@@ -133,7 +130,7 @@ export default function DevisSimulator() {
   }
 
   const ranges = projectType === "vitrine" ? pageRanges.vitrine : pageRanges.default;
-  const estimate = isDone ? calcEstimate(projectType, pages, features, timeline) : null;
+  const quote = isDone ? getQuote(projectType, pages, features) : null;
 
   return (
     <div className="min-h-screen pt-24 pb-20 px-6">
@@ -222,7 +219,7 @@ export default function DevisSimulator() {
                   <h2 className="text-xl font-semibold text-foreground mb-1">Fonctionnalités souhaitées</h2>
                   <p className="text-muted text-sm mb-6">Multi-sélection possible.</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {featuresList.map(({ id, icon: Icon, label, price }) => {
+                    {featuresList.map(({ id, icon: Icon, label }) => {
                       const sel = features.includes(id);
                       return (
                         <button
@@ -235,10 +232,7 @@ export default function DevisSimulator() {
                           }`}
                         >
                           <Icon size={17} className={sel ? "text-accent shrink-0" : "text-muted shrink-0"} />
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-foreground">{label}</p>
-                            <p className="text-xs text-muted">{price === 0 ? "Inclus" : `+${price} €`}</p>
-                          </div>
+                          <p className="flex-1 text-sm font-medium text-foreground">{label}</p>
                           <div className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-all ${
                             sel ? "bg-accent border-accent" : "border-black/20 dark:border-white/20"
                           }`}>
@@ -255,7 +249,7 @@ export default function DevisSimulator() {
               {step === 3 && (
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold text-foreground mb-6">Délai souhaité ?</h2>
-                  {timelines.map(({ id, icon: Icon, label, desc, badge, badgeColor }) => (
+                  {timelines.map(({ id, icon: Icon, label, desc }) => (
                     <OptionCard key={id} selected={timeline === id} onClick={() => setTimeline(id)}>
                       <div className="flex items-center gap-4">
                         <div className={`p-3 rounded-xl shrink-0 ${timeline === id ? "bg-accent/20" : "bg-black/5 dark:bg-white/5"}`}>
@@ -265,9 +259,6 @@ export default function DevisSimulator() {
                           <p className="font-semibold text-foreground">{label}</p>
                           <p className="text-muted text-sm">{desc}</p>
                         </div>
-                        {badge && (
-                          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 ${badgeColor}`}>{badge}</span>
-                        )}
                         <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
                           timeline === id ? "bg-accent border-accent" : "border-black/20 dark:border-white/20"
                         }`}>
@@ -283,7 +274,7 @@ export default function DevisSimulator() {
           )}
 
           {/* Result */}
-          {isDone && estimate && (
+          {isDone && quote && (
             <motion.div
               key="result"
               initial={{ opacity: 0, y: 24 }}
@@ -300,35 +291,47 @@ export default function DevisSimulator() {
               </div>
 
               {/* Price */}
-              <div className="rounded-2xl border border-accent/30 bg-accent/[0.04] p-8 text-center">
-                <div className="text-6xl font-bold text-foreground mb-1">{estimate.total.toLocaleString("fr-FR")} €</div>
-                <div className="text-accent font-semibold text-sm mt-2">Plan recommandé : {estimate.plan}</div>
+              <div className={`rounded-2xl border p-8 text-center ${
+                quote.plan !== "sur-mesure"
+                  ? "border-accent/50 bg-accent/[0.06] shadow-glow"
+                  : "border-accent/30 bg-accent/[0.04]"
+              }`}>
+                <div className={`font-bold text-foreground mb-2 ${
+                  quote.plan === "sur-mesure" ? "text-4xl" : "text-6xl"
+                }`}>
+                  {quote.price}
+                </div>
+                <div className="text-accent font-semibold text-sm mt-2">Pack {quote.planLabel}</div>
               </div>
 
-              {/* Breakdown */}
+              {/* Recap */}
               <div className="card-border rounded-2xl p-6 bg-black/[0.03] dark:bg-white/[0.02] space-y-3">
-                <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-4">Détail</p>
+                <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-4">Récapitulatif</p>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted">Base ({projectTypes.find((p) => p.id === projectType)?.label})</span>
-                  <span className="text-foreground font-medium">{estimate.base.toLocaleString("fr-FR")} €</span>
+                  <span className="text-muted">Type de projet</span>
+                  <span className="text-foreground font-medium">
+                    {projectTypes.find((p) => p.id === projectType)?.label}
+                  </span>
                 </div>
-                {estimate.extras > 0 && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted">Fonctionnalités</span>
-                    <span className="text-foreground font-medium">+{estimate.extras.toLocaleString("fr-FR")} €</span>
-                  </div>
-                )}
-                {timeline !== "standard" && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted">Délai ({timelines.find((t) => t.id === timeline)?.label})</span>
-                    <span className={`font-medium ${timeline === "urgent" ? "text-orange-400" : "text-green-400"}`}>
-                      {timeline === "urgent" ? "+20%" : "-5%"}
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted">Volume</span>
+                  <span className="text-foreground font-medium">
+                    {ranges.find((r) => r.id === pages)?.label}
+                  </span>
+                </div>
+                {features.length > 0 && (
+                  <div className="flex justify-between text-sm gap-4">
+                    <span className="text-muted shrink-0">Fonctionnalités</span>
+                    <span className="text-foreground font-medium text-right">
+                      {features.map((f) => featuresList.find((x) => x.id === f)?.label).join(", ")}
                     </span>
                   </div>
                 )}
-                <div className="border-t border-black/10 dark:border-white/10 pt-3 flex justify-between text-sm font-bold">
-                  <span className="text-foreground">Total estimé</span>
-                  <span className="text-accent">{estimate.total.toLocaleString("fr-FR")} €</span>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted">Délai</span>
+                  <span className="text-foreground font-medium">
+                    {timelines.find((t) => t.id === timeline)?.label}
+                  </span>
                 </div>
               </div>
 

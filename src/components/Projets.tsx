@@ -8,7 +8,6 @@ import { fadeInUp, staggerContainer } from "@/lib/animations";
 const projects = [
   {
     title: "Mon Frigo Malin",
-    url: "monfrigomalin.fr",
     href: "https://monfrigomalin.fr",
     tag: "PWA · IA · Anti-gaspi",
     description:
@@ -17,20 +16,37 @@ const projects = [
     flagship: true,
   },
   {
-    title: "GregoDev.com",
-    url: "gregodev.com",
-    href: "https://gregodev.com",
-    tag: "Site vitrine · Portfolio",
+    title: "Boulangerie du Quartier",
+    href: "https://boulangerie.gregodev.com",
+    tag: "Site Vitrine · HTML/CSS",
     description:
-      "Ce site — conçu et développé entièrement sur-mesure avec Next.js, Framer Motion et Tailwind CSS. Design sombre, animations soignées.",
-    tech: ["Next.js 16", "Framer Motion", "TypeScript", "Tailwind CSS"],
+      "Site vitrine pour une boulangerie locale. Catalogue produits, formulaire de contact, design chaleureux.",
+    tech: ["HTML5", "CSS3", "JavaScript", "Responsive"],
+    flagship: false,
+  },
+  {
+    title: "Nocturne Restaurant",
+    href: "https://landing-page-deux.vercel.app",
+    tag: "Landing Page · Next.js",
+    description:
+      "Landing page premium pour un restaurant gastronomique. Design élégant, système de réservation intégré.",
+    tech: ["Next.js", "React", "Tailwind CSS"],
+    flagship: false,
+  },
+  {
+    title: "Lumea Beauty",
+    href: "https://lumea-beauty-e-commerce.vercel.app",
+    tag: "E-commerce · Next.js",
+    description:
+      "Boutique en ligne pour une marque de cosmétiques naturels. Catalogue produits, panier, comptes clients.",
+    tech: ["Next.js 14", "TypeScript", "Tailwind CSS"],
     flagship: false,
   },
 ];
 
 export default function Projets() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useInView(ref, { once: true, amount: 0.15 });
 
   return (
     <section id="projets" className="py-24 px-6">
@@ -53,13 +69,15 @@ export default function Projets() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {projects.map((project) => (
               <motion.div
                 key={project.title}
                 variants={fadeInUp}
                 whileHover={{ y: -4 }}
                 className={`rounded-2xl p-8 flex flex-col ${
+                  project.flagship ? "md:col-span-2" : ""
+                } ${
                   project.flagship
                     ? "border border-accent/40 bg-accent/[0.04]"
                     : "card-border bg-black/[0.03] dark:bg-white/[0.02]"

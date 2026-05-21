@@ -82,7 +82,7 @@ export default function Navbar() {
             )}
           </button>
           <a
-            href="mailto:contact@gregodev.com"
+            href="/#contact"
             className="bg-accent text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-glow hover:bg-accent/90 transition-all duration-200"
           >
             Demander un devis
@@ -133,7 +133,7 @@ export default function Navbar() {
             06 58 93 67 88
           </a>
           <a
-            href="mailto:contact@gregodev.com"
+            href="/#contact"
             className="bg-accent text-white text-sm font-semibold px-5 py-3 rounded-xl text-center mt-2"
           >
             Demander un devis

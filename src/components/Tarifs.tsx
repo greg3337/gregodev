@@ -23,7 +23,7 @@ const plans = [
   },
   {
     name: "Vitrine Pro",
-    price: "890€",
+    price: "1 200€",
     description: "Le site qui convertit vos visiteurs en clients",
     badge: "Le plus populaire",
     features: [

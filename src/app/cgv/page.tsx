@@ -81,7 +81,7 @@ export default function CGV() {
               <strong>Starter</strong> : page unique ou site 3 pages — à partir de 490&nbsp;€
             </Li>
             <Li>
-              <strong>Vitrine Pro</strong> : site 5 à 8 pages — à partir de 890&nbsp;€
+              <strong>Vitrine Pro</strong> : site 5 à 8 pages — à partir de 1&nbsp;200&nbsp;€
             </Li>
             <Li>
               <strong>Sur-mesure</strong> : application web, SaaS, outils internes — à partir de
@@ -100,8 +100,8 @@ export default function CGV() {
 
           <H2>5. Conditions de paiement</H2>
           <ul className="space-y-2 mb-4 ml-1">
-            <Li>Acompte de 20&nbsp;% à la signature du devis</Li>
-            <Li>Solde de 80&nbsp;% à la livraison avant mise en ligne</Li>
+            <Li>Acompte de 30&nbsp;% à la signature du devis</Li>
+            <Li>Solde de 70&nbsp;% à la livraison avant mise en ligne</Li>
           </ul>
           <P>
             Paiement par virement bancaire ou Stripe. Retard de paiement : pénalités au taux légal

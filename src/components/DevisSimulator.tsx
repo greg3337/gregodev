@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import {
   ChevronRight, ChevronLeft, Check, Zap, Clock, Calendar,
@@ -98,10 +99,23 @@ function OptionCard({ selected, onClick, children }: { selected: boolean; onClic
 // ─── Main component ───────────────────────────────────────────────────────────
 
 export default function DevisSimulator() {
-  const [step, setStep] = useState(0);
+  const searchParams = useSearchParams();
+  const pack = searchParams.get("pack");
+
+  const [step, setStep] = useState(() => {
+    if (pack === "starter" || pack === "vitrine-pro") return 2;
+    return 0;
+  });
   const [dir, setDir] = useState(1);
-  const [projectType, setProjectType] = useState("");
-  const [pages, setPages] = useState("");
+  const [projectType, setProjectType] = useState(() => {
+    if (pack === "starter" || pack === "vitrine-pro") return "vitrine";
+    return "";
+  });
+  const [pages, setPages] = useState(() => {
+    if (pack === "starter") return "1-3";
+    if (pack === "vitrine-pro") return "4-8";
+    return "";
+  });
   const [features, setFeatures] = useState<string[]>([]);
   const [timeline, setTimeline] = useState("");
 

@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import Link from "next/link";
 import { Check } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
@@ -19,7 +20,7 @@ const plans = [
       "Déploiement inclus",
     ],
     cta: "Choisir Starter",
-    prefill: "Je suis intéressé par le pack Starter (490€)",
+    href: "/devis?pack=starter",
     highlighted: false,
   },
   {
@@ -36,7 +37,7 @@ const plans = [
       "Déploiement inclus",
     ],
     cta: "Choisir Vitrine Pro",
-    prefill: "Je suis intéressé par le pack Vitrine Pro (1 200€)",
+    href: "/devis?pack=vitrine-pro",
     highlighted: true,
   },
   {
@@ -52,7 +53,7 @@ const plans = [
       "Support 3 mois",
     ],
     cta: "Demander un devis",
-    prefill: "Je souhaite discuter d'un projet sur-mesure",
+    href: "/devis?pack=sur-mesure",
     highlighted: false,
   },
 ];
@@ -116,21 +117,16 @@ export default function Tarifs() {
                   ))}
                 </ul>
 
-                <button
-                  onClick={() => {
-                    window.dispatchEvent(
-                      new CustomEvent("prefill-contact", { detail: { message: plan.prefill } })
-                    );
-                    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className={`w-full py-3 px-6 rounded-xl text-sm font-semibold text-center transition-all duration-200 ${
+                <Link
+                  href={plan.href}
+                  className={`w-full py-3 px-6 rounded-xl text-sm font-semibold text-center transition-all duration-200 block ${
                     plan.highlighted
                       ? "bg-accent text-white shadow-glow hover:bg-accent/90"
                       : "border border-accent/30 text-accent hover:bg-accent/10"
                   }`}
                 >
                   {plan.cta}
-                </button>
+                </Link>
               </motion.div>
             ))}
           </div>

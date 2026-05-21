@@ -13,17 +13,34 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "GregoDev — Développeur Freelance Bordeaux",
+  title: {
+    default: "GregoDev — Développeur Freelance Bordeaux",
+    template: "%s · GregoDev",
+  },
   description:
-    "Sites vitrines, applications SaaS et outils internes pour freelances et petites entreprises à Bordeaux.",
+    "Grégoire, développeur freelance à Bordeaux. Création de sites vitrines, applications SaaS et outils internes pour freelances et TPE. Devis gratuit en 48h.",
+  keywords: [
+    "développeur freelance Bordeaux",
+    "création site web Bordeaux",
+    "site vitrine Bordeaux",
+    "développeur web Bordeaux",
+    "freelance web Bordeaux",
+    "application web Bordeaux",
+    "développeur Next.js Bordeaux",
+    "SaaS Bordeaux",
+    "GregoDev",
+  ],
+  authors: [{ name: "Grégoire Pelizzardi", url: "https://gregodev.com" }],
+  creator: "Grégoire Pelizzardi",
   metadataBase: new URL("https://gregodev.com"),
+  robots: { index: true, follow: true },
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
   },
   openGraph: {
     title: "GregoDev — Développeur Freelance Bordeaux",
     description:
-      "Sites vitrines, applications SaaS et outils internes pour freelances et petites entreprises à Bordeaux.",
+      "Grégoire, développeur freelance à Bordeaux. Création de sites vitrines, applications SaaS et outils internes pour freelances et TPE. Devis gratuit en 48h.",
     url: "https://gregodev.com",
     siteName: "GregoDev",
     locale: "fr_FR",
@@ -41,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "GregoDev — Développeur Freelance Bordeaux",
     description:
-      "Sites vitrines, applications SaaS et outils internes pour freelances et petites entreprises à Bordeaux.",
+      "Grégoire, développeur freelance à Bordeaux. Création de sites vitrines, applications SaaS et outils internes pour freelances et TPE. Devis gratuit en 48h.",
     images: ["https://gregodev.com/og-image.png"],
   },
 };

@@ -4,9 +4,18 @@ import { ArrowRight, Clock } from "lucide-react";
 import { posts } from "@/lib/blog";
 
 export const metadata: Metadata = {
-  title: "Blog & Ressources — GregoDev",
+  title: "Blog & conseils — Développeur Freelance Bordeaux",
   description:
-    "Conseils, retours d'expérience et veille tech par GregoDev, développeur freelance à Bordeaux.",
+    "Conseils pratiques sur la création de sites, retours d'expérience SaaS et veille tech par Grégoire Pelizzardi, développeur freelance à Bordeaux.",
+  keywords: [
+    "blog développeur Bordeaux",
+    "conseils création site web",
+    "développeur freelance blog",
+    "Next.js Bordeaux",
+    "SaaS Bordeaux",
+    "veille tech freelance",
+  ],
+  alternates: { canonical: "https://gregodev.com/blog" },
 };
 
 export default function BlogPage() {

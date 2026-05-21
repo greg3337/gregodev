@@ -3,9 +3,37 @@ import Link from "next/link";
 import { Clock, ChevronLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Comment j'ai lancé Mon Frigo Malin — GregoDev",
+  title: "Comment j'ai lancé Mon Frigo Malin",
   description:
-    "Retour d'expérience complet sur la création d'une PWA anti-gaspi avec de l'IA : stack technique, défis, erreurs et leçons apprises.",
+    "Retour d'expérience complet sur la création d'une PWA anti-gaspillage avec IA : stack technique, défis rencontrés et leçons apprises en production.",
+  keywords: [
+    "SaaS Bordeaux",
+    "PWA Next.js",
+    "intégration IA",
+    "développeur freelance Bordeaux",
+    "Gemini AI",
+    "lancer une app web",
+    "retour expérience SaaS",
+  ],
+  alternates: {
+    canonical: "https://gregodev.com/blog/comment-j-ai-lance-mon-frigo-malin",
+  },
+  openGraph: {
+    title: "Comment j'ai lancé Mon Frigo Malin",
+    description:
+      "Retour d'expérience complet sur la création d'une PWA anti-gaspillage avec IA : stack technique, défis rencontrés et leçons apprises en production.",
+    url: "https://gregodev.com/blog/comment-j-ai-lance-mon-frigo-malin",
+    type: "article",
+    siteName: "GregoDev",
+    images: [{ url: "https://gregodev.com/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Comment j'ai lancé Mon Frigo Malin",
+    description:
+      "Retour d'expérience complet sur la création d'une PWA anti-gaspillage avec IA : stack technique, défis rencontrés et leçons apprises en production.",
+    images: ["https://gregodev.com/og-image.png"],
+  },
 };
 
 const tags = ["SaaS", "IA", "Retour d'expérience"];

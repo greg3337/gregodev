@@ -5,8 +5,11 @@ import Footer from "@/components/Footer";
 import { ChevronLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Politique de confidentialité — GregoDev",
-  description: "Politique de confidentialité et de protection des données personnelles de gregodev.com.",
+  title: "Politique de confidentialité",
+  description:
+    "Politique de confidentialité et protection des données personnelles de gregodev.com — Grégoire Pelizzardi, développeur freelance à Bordeaux.",
+  alternates: { canonical: "https://gregodev.com/confidentialite" },
+  robots: { index: false, follow: false },
 };
 
 function H2({ children }: { children: React.ReactNode }) {

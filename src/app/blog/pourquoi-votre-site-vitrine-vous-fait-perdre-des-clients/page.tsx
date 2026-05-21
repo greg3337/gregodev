@@ -3,9 +3,37 @@ import Link from "next/link";
 import { Clock, ChevronLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Pourquoi votre site vitrine vous fait perdre des clients — GregoDev",
+  title: "Pourquoi votre site vitrine vous fait perdre des clients",
   description:
-    "5 erreurs qui reviennent systématiquement sur les sites de freelances et TPE, et comment les corriger pour convertir plus de visiteurs en clients.",
+    "5 erreurs fréquentes sur les sites de freelances et TPE à Bordeaux, et comment les corriger pour convertir vos visiteurs en clients. Audit gratuit disponible.",
+  keywords: [
+    "site vitrine Bordeaux",
+    "erreurs site web",
+    "conversion site vitrine",
+    "audit site web Bordeaux",
+    "développeur freelance Bordeaux",
+    "optimisation site vitrine",
+  ],
+  alternates: {
+    canonical:
+      "https://gregodev.com/blog/pourquoi-votre-site-vitrine-vous-fait-perdre-des-clients",
+  },
+  openGraph: {
+    title: "Pourquoi votre site vitrine vous fait perdre des clients",
+    description:
+      "5 erreurs fréquentes sur les sites de freelances et TPE à Bordeaux, et comment les corriger pour convertir vos visiteurs en clients.",
+    url: "https://gregodev.com/blog/pourquoi-votre-site-vitrine-vous-fait-perdre-des-clients",
+    type: "article",
+    siteName: "GregoDev",
+    images: [{ url: "https://gregodev.com/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Pourquoi votre site vitrine vous fait perdre des clients",
+    description:
+      "5 erreurs fréquentes sur les sites de freelances et TPE à Bordeaux, et comment les corriger pour convertir vos visiteurs en clients.",
+    images: ["https://gregodev.com/og-image.png"],
+  },
 };
 
 const tags = ["Conseil", "Web", "Conversion"];

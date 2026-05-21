@@ -3,9 +3,37 @@ import Link from "next/link";
 import { Clock, ChevronLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Claude Code, Cursor, v0 : quel outil IA choisir en 2026 ? — GregoDev",
+  title: "Claude Code vs Cursor vs v0 : quel outil IA choisir ?",
   description:
-    "Comparatif honnête de Claude Code, Cursor, v0 et Lovable : pour qui, pour quoi, et lequel choisir selon votre projet.",
+    "Comparatif honnête de Claude Code, Cursor, v0 et Lovable pour développer en 2026. Pour qui, pour quoi, et lequel choisir selon votre projet web.",
+  keywords: [
+    "Claude Code",
+    "Cursor IA",
+    "v0 Vercel",
+    "outils IA développeur",
+    "développeur freelance Bordeaux",
+    "comparatif IA 2026",
+    "Lovable no-code",
+  ],
+  alternates: {
+    canonical: "https://gregodev.com/blog/claude-code-cursor-v0-quel-outil-choisir",
+  },
+  openGraph: {
+    title: "Claude Code vs Cursor vs v0 : quel outil IA choisir ?",
+    description:
+      "Comparatif honnête de Claude Code, Cursor, v0 et Lovable pour développer en 2026. Pour qui, pour quoi, et lequel choisir selon votre projet web.",
+    url: "https://gregodev.com/blog/claude-code-cursor-v0-quel-outil-choisir",
+    type: "article",
+    siteName: "GregoDev",
+    images: [{ url: "https://gregodev.com/og-image.png", width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Claude Code vs Cursor vs v0 : quel outil IA choisir ?",
+    description:
+      "Comparatif honnête de Claude Code, Cursor, v0 et Lovable pour développer en 2026. Pour qui, pour quoi, et lequel choisir selon votre projet web.",
+    images: ["https://gregodev.com/og-image.png"],
+  },
 };
 
 const tags = ["IA", "Outils", "Dev"];

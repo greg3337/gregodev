@@ -5,9 +5,11 @@ import Footer from "@/components/Footer";
 import { ChevronLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Conditions Générales de Vente — GregoDev",
+  title: "CGV",
   description:
-    "Conditions Générales de Vente de GregoDev — Grégoire Pelizzardi, développeur freelance à Bordeaux.",
+    "Conditions Générales de Vente de GregoDev — Grégoire Pelizzardi, développeur freelance à Bordeaux. Tarifs, acompte, délais et médiation.",
+  alternates: { canonical: "https://gregodev.com/cgv" },
+  robots: { index: false, follow: false },
 };
 
 function H2({ children }: { children: React.ReactNode }) {

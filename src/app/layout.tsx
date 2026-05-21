@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import Providers from "@/components/Providers";
 import CookieBanner from "@/components/CookieBanner";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
@@ -58,6 +59,7 @@ export default function RootLayout({
           <ScrollToTop />
           <CookieBanner />
           <GoogleAnalytics />
+          <Analytics />
         </Providers>
       </body>
     </html>

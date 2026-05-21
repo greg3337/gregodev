@@ -5,8 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import {
   ChevronRight, ChevronLeft, Check, Zap, Clock, Calendar,
-  Globe, Server, Wrench, Mail, BookOpen, Lock, CreditCard,
-  Brain, LayoutDashboard, Sparkles, RefreshCw, ArrowRight,
+  Globe, Server, Wrench, Sparkles, RefreshCw, ArrowRight,
 } from "lucide-react";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
@@ -32,37 +31,49 @@ const pageRanges = {
   ],
 };
 
-const featuresList = [
-  { id: "contact", icon: Mail, label: "Formulaire de contact" },
-  { id: "blog", icon: BookOpen, label: "Blog / Articles" },
-  { id: "auth", icon: Lock, label: "Authentification" },
-  { id: "paiement", icon: CreditCard, label: "Paiement en ligne" },
-  { id: "ia", icon: Brain, label: "Intégration IA" },
-  { id: "dashboard", icon: LayoutDashboard, label: "Dashboard admin" },
-];
-
 const timelines = [
   { id: "urgent", icon: Zap, label: "Urgent", desc: "Livraison en moins de 2 semaines" },
   { id: "standard", icon: Clock, label: "Standard", desc: "2 à 4 semaines" },
   { id: "flexible", icon: Calendar, label: "Flexible", desc: "Plus d'un mois" },
 ];
 
-const STEPS = ["Projet", "Volume", "Options", "Délai"];
+const STEPS = ["Projet", "Volume", "Délai"];
 
-// ─── Price logic ─────────────────────────────────────────────────────────────
+// ─── Price & features ────────────────────────────────────────────────────────
 
-const ADVANCED_FEATURES = new Set(["auth", "paiement", "ia", "dashboard"]);
+const packFeatures = {
+  starter: [
+    "Site 1 – 3 pages",
+    "Design responsive mobile-first",
+    "SEO de base",
+    "Formulaire de contact",
+    "Déploiement inclus",
+  ],
+  "vitrine-pro": [
+    "Site 5 – 8 pages",
+    "Animations Framer Motion",
+    "SEO avancé",
+    "Blog / Articles",
+    "Formulaire de contact avancé",
+    "Déploiement inclus",
+  ],
+  "sur-mesure": [
+    "Application web sur mesure",
+    "Authentification utilisateurs",
+    "Paiement en ligne",
+    "Intégrations IA",
+    "Dashboard admin",
+    "Support 3 mois",
+  ],
+} as const;
 
-function getQuote(type: string, pages: string, features: string[]): {
-  plan: "starter" | "vitrine-pro" | "sur-mesure";
-  price: string;
-  planLabel: string;
-} {
-  const hasAdvanced = features.some((f) => ADVANCED_FEATURES.has(f));
-  if (type === "vitrine" && pages === "1-3" && !hasAdvanced) {
+type Plan = keyof typeof packFeatures;
+
+function getQuote(type: string, pages: string): { plan: Plan; price: string; planLabel: string } {
+  if (type === "vitrine" && pages === "1-3") {
     return { plan: "starter", price: "490€", planLabel: "Starter" };
   }
-  if (type === "vitrine" && pages === "4-8" && !hasAdvanced) {
+  if (type === "vitrine" && pages === "4-8") {
     return { plan: "vitrine-pro", price: "1 200€", planLabel: "Vitrine Pro" };
   }
   return { plan: "sur-mesure", price: "À partir de 1 500€", planLabel: "Sur-mesure" };
@@ -113,24 +124,20 @@ export default function DevisSimulator() {
     if (pack === "vitrine-pro") return "4-8";
     return "";
   });
-  const [features, setFeatures] = useState<string[]>([]);
   const [timeline, setTimeline] = useState("");
 
-  const canContinue = [projectType !== "", pages !== "", true, timeline !== ""];
-  const isDone = step === 4;
+  const canContinue = [projectType !== "", pages !== "", timeline !== ""];
+  const isDone = step === 3;
 
   function next() { setDir(1); setStep((s) => s + 1); }
   function prev() { setDir(-1); setStep((s) => s - 1); }
   function restart() {
     setDir(-1); setStep(0);
-    setProjectType(""); setPages(""); setFeatures([]); setTimeline("");
-  }
-  function toggleFeature(id: string) {
-    setFeatures((f) => f.includes(id) ? f.filter((x) => x !== id) : [...f, id]);
+    setProjectType(""); setPages(""); setTimeline("");
   }
 
   const ranges = projectType === "vitrine" ? pageRanges.vitrine : pageRanges.default;
-  const quote = isDone ? getQuote(projectType, pages, features) : null;
+  const quote = isDone ? getQuote(projectType, pages) : null;
 
   return (
     <div className="min-h-screen pt-24 pb-20 px-6">
@@ -140,7 +147,7 @@ export default function DevisSimulator() {
         <div className="text-center mb-12">
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">Simulateur</span>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mt-2">Estimez votre projet</h1>
-          <p className="text-muted mt-3 text-base">4 questions pour une estimation personnalisée.</p>
+          <p className="text-muted mt-3 text-base">3 questions pour une estimation personnalisée.</p>
         </div>
 
         {/* Progress bar */}
@@ -213,40 +220,8 @@ export default function DevisSimulator() {
                 </div>
               )}
 
-              {/* Step 3 — Fonctionnalités */}
+              {/* Step 3 — Délai */}
               {step === 2 && (
-                <div>
-                  <h2 className="text-xl font-semibold text-foreground mb-1">Fonctionnalités souhaitées</h2>
-                  <p className="text-muted text-sm mb-6">Multi-sélection possible.</p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {featuresList.map(({ id, icon: Icon, label }) => {
-                      const sel = features.includes(id);
-                      return (
-                        <button
-                          key={id}
-                          onClick={() => toggleFeature(id)}
-                          className={`flex items-center gap-3 p-4 rounded-xl border text-left transition-all duration-200 ${
-                            sel
-                              ? "border-accent bg-accent/10"
-                              : "border-black/10 dark:border-white/10 hover:border-accent/40 bg-black/[0.03] dark:bg-white/[0.02]"
-                          }`}
-                        >
-                          <Icon size={17} className={sel ? "text-accent shrink-0" : "text-muted shrink-0"} />
-                          <p className="flex-1 text-sm font-medium text-foreground">{label}</p>
-                          <div className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-all ${
-                            sel ? "bg-accent border-accent" : "border-black/20 dark:border-white/20"
-                          }`}>
-                            {sel && <Check size={11} className="text-white" />}
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-
-              {/* Step 4 — Délai */}
-              {step === 3 && (
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold text-foreground mb-6">Délai souhaité ?</h2>
                   {timelines.map(({ id, icon: Icon, label, desc }) => (
@@ -302,37 +277,22 @@ export default function DevisSimulator() {
                   {quote.price}
                 </div>
                 <div className="text-accent font-semibold text-sm mt-2">Pack {quote.planLabel}</div>
+                <div className="text-muted text-xs mt-1.5">
+                  Délai : {timelines.find((t) => t.id === timeline)?.label}
+                </div>
               </div>
 
-              {/* Recap */}
-              <div className="card-border rounded-2xl p-6 bg-black/[0.03] dark:bg-white/[0.02] space-y-3">
-                <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-4">Récapitulatif</p>
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted">Type de projet</span>
-                  <span className="text-foreground font-medium">
-                    {projectTypes.find((p) => p.id === projectType)?.label}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted">Volume</span>
-                  <span className="text-foreground font-medium">
-                    {ranges.find((r) => r.id === pages)?.label}
-                  </span>
-                </div>
-                {features.length > 0 && (
-                  <div className="flex justify-between text-sm gap-4">
-                    <span className="text-muted shrink-0">Fonctionnalités</span>
-                    <span className="text-foreground font-medium text-right">
-                      {features.map((f) => featuresList.find((x) => x.id === f)?.label).join(", ")}
-                    </span>
-                  </div>
-                )}
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted">Délai</span>
-                  <span className="text-foreground font-medium">
-                    {timelines.find((t) => t.id === timeline)?.label}
-                  </span>
-                </div>
+              {/* Included features */}
+              <div className="card-border rounded-2xl p-6 bg-black/[0.03] dark:bg-white/[0.02]">
+                <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-4">Ce qui est inclus</p>
+                <ul className="space-y-2.5">
+                  {packFeatures[quote.plan].map((feature) => (
+                    <li key={feature} className="flex items-center gap-3 text-sm text-foreground">
+                      <Check size={15} className="text-accent shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               {/* CTAs */}
@@ -371,7 +331,7 @@ export default function DevisSimulator() {
               disabled={!canContinue[step]}
               className="flex items-center gap-1.5 bg-accent text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-glow hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
             >
-              {step === 3 ? "Voir l'estimation" : "Continuer"}
+              {step === 2 ? "Voir l'estimation" : "Continuer"}
               <ChevronRight size={17} />
             </button>
           </div>

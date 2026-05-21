@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Mail, MapPin, Phone, Send, Check, ChevronDown } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
@@ -155,6 +155,18 @@ function CustomSelect({
 export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
+
+  const handlePrefill = useCallback((e: Event) => {
+    const message = (e as CustomEvent<{ message: string }>).detail.message;
+    setForm((f) => ({ ...f, message }));
+    setTouched((t) => ({ ...t, message: false }));
+    setErrors((err) => ({ ...err, message: "" }));
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("prefill-contact", handlePrefill);
+    return () => window.removeEventListener("prefill-contact", handlePrefill);
+  }, [handlePrefill]);
 
   const [form, setForm] = useState<FormData>({
     name: "",

@@ -19,6 +19,7 @@ const plans = [
       "Déploiement inclus",
     ],
     cta: "Choisir Starter",
+    prefill: "Je suis intéressé par le pack Starter (490€)",
     highlighted: false,
   },
   {
@@ -35,6 +36,7 @@ const plans = [
       "Déploiement inclus",
     ],
     cta: "Choisir Vitrine Pro",
+    prefill: "Je suis intéressé par le pack Vitrine Pro (1 200€)",
     highlighted: true,
   },
   {
@@ -50,6 +52,7 @@ const plans = [
       "Support 3 mois",
     ],
     cta: "Demander un devis",
+    prefill: "Je souhaite discuter d'un projet sur-mesure",
     highlighted: false,
   },
 ];
@@ -113,8 +116,13 @@ export default function Tarifs() {
                   ))}
                 </ul>
 
-                <a
-                  href="mailto:contact@gregodev.com"
+                <button
+                  onClick={() => {
+                    window.dispatchEvent(
+                      new CustomEvent("prefill-contact", { detail: { message: plan.prefill } })
+                    );
+                    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
+                  }}
                   className={`w-full py-3 px-6 rounded-xl text-sm font-semibold text-center transition-all duration-200 ${
                     plan.highlighted
                       ? "bg-accent text-white shadow-glow hover:bg-accent/90"
@@ -122,7 +130,7 @@ export default function Tarifs() {
                   }`}
                 >
                   {plan.cta}
-                </a>
+                </button>
               </motion.div>
             ))}
           </div>

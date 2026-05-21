@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import {
@@ -121,15 +121,45 @@ export default function DevisSimulator() {
     return "";
   });
   const [timeline, setTimeline] = useState("");
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const canContinue = [selectedPack !== "", timeline !== ""];
   const isDone = step === 2;
+
+  useEffect(() => {
+    if (!isDone) return;
+    const q = getQuote(selectedPack);
+    const timelineLabel = timelines.find((t) => t.id === timeline)?.label ?? "";
+    setFormData((f) => ({
+      ...f,
+      message: `Pack : ${q.planLabel} (${q.price})\nDélai souhaité : ${timelineLabel}\n\nBonjour, je souhaite recevoir un devis détaillé pour ce projet.`,
+    }));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDone]);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setFormStatus("loading");
+    try {
+      const res = await fetch("https://formspree.io/f/mqeykljd", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(formData),
+      });
+      setFormStatus(res.ok ? "success" : "error");
+    } catch {
+      setFormStatus("error");
+    }
+  }
 
   function next() { setDir(1); setStep((s) => s + 1); }
   function prev() { setDir(-1); setStep((s) => s - 1); }
   function restart() {
     setDir(-1); setStep(0);
     setSelectedPack(""); setTimeline("");
+    setFormData({ name: "", email: "", message: "" });
+    setFormStatus("idle");
   }
 
   const quote = isDone ? getQuote(selectedPack) : null;
@@ -271,14 +301,93 @@ export default function DevisSimulator() {
                 </ul>
               </div>
 
-              {/* CTAs */}
-              <a
-                href="/#contact"
-                className="flex items-center justify-center gap-2 w-full bg-accent text-white font-semibold py-4 px-6 rounded-xl shadow-glow hover:bg-accent/90 transition-all duration-200"
-              >
-                Démarrer ce projet
-                <ArrowRight size={18} />
-              </a>
+              {/* Récapitulatif */}
+              <div className="card-border rounded-2xl p-6 bg-black/[0.03] dark:bg-white/[0.02] space-y-3">
+                <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-4">Récapitulatif</p>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted">Pack</span>
+                  <span className="text-foreground font-medium">Pack {quote.planLabel}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted">Prix</span>
+                  <span className="text-foreground font-medium">{quote.price}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted">Délai</span>
+                  <span className="text-foreground font-medium">
+                    {timelines.find((t) => t.id === timeline)?.label}
+                  </span>
+                </div>
+              </div>
+
+              {/* Modalités de paiement */}
+              <div className="card-border rounded-2xl p-6 bg-black/[0.03] dark:bg-white/[0.02] space-y-3">
+                <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-4">Modalités de paiement</p>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted">À la signature du devis</span>
+                  <span className="text-foreground font-medium">30% d&apos;acompte</span>
+                </div>
+                <div className="border-t border-black/[0.06] dark:border-white/[0.06] pt-3 flex justify-between text-sm">
+                  <span className="text-muted">À la livraison</span>
+                  <span className="text-foreground font-medium">70% solde</span>
+                </div>
+              </div>
+
+              {/* Contact form */}
+              <div className="card-border rounded-2xl p-6 bg-black/[0.03] dark:bg-white/[0.02]">
+                <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-6">Démarrer ce projet</p>
+
+                {formStatus === "success" ? (
+                  <div className="text-center py-6">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 mb-4">
+                      <Check size={22} className="text-accent" />
+                    </div>
+                    <p className="text-foreground font-semibold">Message envoyé !</p>
+                    <p className="text-muted text-sm mt-1">Je vous réponds sous 48h.</p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <input
+                      type="text"
+                      placeholder="Votre nom"
+                      value={formData.name}
+                      onChange={(e) => setFormData((f) => ({ ...f, name: e.target.value }))}
+                      required
+                      className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-foreground placeholder:text-muted text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all"
+                    />
+                    <input
+                      type="email"
+                      placeholder="Votre email"
+                      value={formData.email}
+                      onChange={(e) => setFormData((f) => ({ ...f, email: e.target.value }))}
+                      required
+                      className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-foreground placeholder:text-muted text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all"
+                    />
+                    <textarea
+                      rows={5}
+                      value={formData.message}
+                      onChange={(e) => setFormData((f) => ({ ...f, message: e.target.value }))}
+                      required
+                      className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-foreground placeholder:text-muted text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all resize-none"
+                    />
+                    {formStatus === "error" && (
+                      <p className="text-red-400 text-xs">
+                        Une erreur est survenue. Réessayez ou écrivez à{" "}
+                        <a href="mailto:contact@gregodev.com" className="underline">contact@gregodev.com</a>.
+                      </p>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={formStatus === "loading"}
+                      className="flex items-center justify-center gap-2 w-full bg-accent text-white font-semibold py-3.5 px-6 rounded-xl shadow-glow hover:bg-accent/90 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200"
+                    >
+                      {formStatus === "loading" ? "Envoi en cours…" : (
+                        <>Envoyer ma demande <ArrowRight size={17} /></>
+                      )}
+                    </button>
+                  </form>
+                )}
+              </div>
 
               <button
                 onClick={restart}

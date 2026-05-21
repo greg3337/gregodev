@@ -5,31 +5,34 @@ import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import {
   ChevronRight, ChevronLeft, Check, Zap, Clock, Calendar,
-  Globe, Server, Wrench, Sparkles, RefreshCw, ArrowRight,
+  Globe, Monitor, Server, Sparkles, RefreshCw, ArrowRight,
 } from "lucide-react";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 
-const projectTypes = [
-  { id: "vitrine", icon: Globe, label: "Site vitrine", desc: "Présence professionnelle en ligne" },
-  { id: "saas", icon: Server, label: "Application SaaS", desc: "Produit web multi-utilisateurs" },
-  { id: "outil", icon: Wrench, label: "Outil interne", desc: "Automatisation & productivité" },
+const packOptions = [
+  {
+    id: "starter",
+    icon: Globe,
+    label: "Pack Starter",
+    sublabel: "Site vitrine 1 à 3 pages",
+    price: "490€",
+  },
+  {
+    id: "vitrine-pro",
+    icon: Monitor,
+    label: "Pack Vitrine Pro",
+    sublabel: "Site vitrine 5 à 8 pages",
+    price: "1 200€",
+  },
+  {
+    id: "sur-mesure",
+    icon: Server,
+    label: "Sur-mesure",
+    sublabel: "Application web, SaaS ou outil interne",
+    price: "À partir de 1 500€",
+  },
 ];
-
-const pageRanges = {
-  vitrine: [
-    { id: "1-3", label: "1 – 3 pages", desc: "Landing, À propos, Contact" },
-    { id: "4-8", label: "4 – 8 pages", desc: "Site complet avec plusieurs sections" },
-    { id: "9-15", label: "9 – 15 pages", desc: "Site riche, blog, galerie" },
-    { id: "15+", label: "15+ pages", desc: "Catalogue ou plateforme étendue" },
-  ],
-  default: [
-    { id: "1-3", label: "MVP simple", desc: "Fonctionnalités essentielles" },
-    { id: "4-8", label: "Application standard", desc: "Couverture complète du besoin" },
-    { id: "9-15", label: "Application complexe", desc: "Plusieurs modules interconnectés" },
-    { id: "15+", label: "Plateforme complète", desc: "Écosystème multi-fonctions" },
-  ],
-};
 
 const timelines = [
   { id: "urgent", icon: Zap, label: "Urgent", desc: "Livraison en moins de 2 semaines" },
@@ -37,9 +40,9 @@ const timelines = [
   { id: "flexible", icon: Calendar, label: "Flexible", desc: "Plus d'un mois" },
 ];
 
-const STEPS = ["Projet", "Volume", "Délai"];
+const STEPS = ["Pack", "Délai"];
 
-// ─── Price & features ────────────────────────────────────────────────────────
+// ─── Pack features ───────────────────────────────────────────────────────────
 
 const packFeatures = {
   starter: [
@@ -69,13 +72,9 @@ const packFeatures = {
 
 type Plan = keyof typeof packFeatures;
 
-function getQuote(type: string, pages: string): { plan: Plan; price: string; planLabel: string } {
-  if (type === "vitrine" && pages === "1-3") {
-    return { plan: "starter", price: "490€", planLabel: "Starter" };
-  }
-  if (type === "vitrine" && pages === "4-8") {
-    return { plan: "vitrine-pro", price: "1 200€", planLabel: "Vitrine Pro" };
-  }
+function getQuote(plan: string): { plan: Plan; price: string; planLabel: string } {
+  if (plan === "starter") return { plan: "starter", price: "490€", planLabel: "Starter" };
+  if (plan === "vitrine-pro") return { plan: "vitrine-pro", price: "1 200€", planLabel: "Vitrine Pro" };
   return { plan: "sur-mesure", price: "À partir de 1 500€", planLabel: "Sur-mesure" };
 }
 
@@ -108,36 +107,32 @@ function OptionCard({ selected, onClick, children }: { selected: boolean; onClic
 
 export default function DevisSimulator() {
   const searchParams = useSearchParams();
-  const pack = searchParams.get("pack");
+  const packParam = searchParams.get("pack");
 
   const [step, setStep] = useState(() => {
-    if (pack === "starter" || pack === "vitrine-pro") return 2;
+    if (packParam === "starter" || packParam === "vitrine-pro" || packParam === "sur-mesure") return 1;
     return 0;
   });
   const [dir, setDir] = useState(1);
-  const [projectType, setProjectType] = useState(() => {
-    if (pack === "starter" || pack === "vitrine-pro") return "vitrine";
-    return "";
-  });
-  const [pages, setPages] = useState(() => {
-    if (pack === "starter") return "1-3";
-    if (pack === "vitrine-pro") return "4-8";
+  const [selectedPack, setSelectedPack] = useState(() => {
+    if (packParam === "starter") return "starter";
+    if (packParam === "vitrine-pro") return "vitrine-pro";
+    if (packParam === "sur-mesure") return "sur-mesure";
     return "";
   });
   const [timeline, setTimeline] = useState("");
 
-  const canContinue = [projectType !== "", pages !== "", timeline !== ""];
-  const isDone = step === 3;
+  const canContinue = [selectedPack !== "", timeline !== ""];
+  const isDone = step === 2;
 
   function next() { setDir(1); setStep((s) => s + 1); }
   function prev() { setDir(-1); setStep((s) => s - 1); }
   function restart() {
     setDir(-1); setStep(0);
-    setProjectType(""); setPages(""); setTimeline("");
+    setSelectedPack(""); setTimeline("");
   }
 
-  const ranges = projectType === "vitrine" ? pageRanges.vitrine : pageRanges.default;
-  const quote = isDone ? getQuote(projectType, pages) : null;
+  const quote = isDone ? getQuote(selectedPack) : null;
 
   return (
     <div className="min-h-screen pt-24 pb-20 px-6">
@@ -147,7 +142,7 @@ export default function DevisSimulator() {
         <div className="text-center mb-12">
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">Simulateur</span>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mt-2">Estimez votre projet</h1>
-          <p className="text-muted mt-3 text-base">3 questions pour une estimation personnalisée.</p>
+          <p className="text-muted mt-3 text-base">2 questions pour une estimation personnalisée.</p>
         </div>
 
         {/* Progress bar */}
@@ -178,24 +173,22 @@ export default function DevisSimulator() {
           {!isDone && (
             <motion.div key={step} custom={dir} variants={slide} initial="enter" animate="center" exit="exit">
 
-              {/* Step 1 — Type de projet */}
+              {/* Step 1 — Choix du pack */}
               {step === 0 && (
                 <div className="space-y-4">
-                  <h2 className="text-xl font-semibold text-foreground mb-6">Quel type de projet ?</h2>
-                  {projectTypes.map(({ id, icon: Icon, label, desc }) => (
-                    <OptionCard key={id} selected={projectType === id} onClick={() => setProjectType(id)}>
+                  <h2 className="text-xl font-semibold text-foreground mb-6">Quel pack vous correspond ?</h2>
+                  {packOptions.map(({ id, icon: Icon, label, sublabel, price }) => (
+                    <OptionCard key={id} selected={selectedPack === id} onClick={() => setSelectedPack(id)}>
                       <div className="flex items-center gap-4">
-                        <div className={`p-3 rounded-xl shrink-0 ${projectType === id ? "bg-accent/20" : "bg-black/5 dark:bg-white/5"}`}>
-                          <Icon size={22} className={projectType === id ? "text-accent" : "text-muted"} />
+                        <div className={`p-3 rounded-xl shrink-0 ${selectedPack === id ? "bg-accent/20" : "bg-black/5 dark:bg-white/5"}`}>
+                          <Icon size={22} className={selectedPack === id ? "text-accent" : "text-muted"} />
                         </div>
                         <div className="flex-1">
                           <p className="font-semibold text-foreground">{label}</p>
-                          <p className="text-muted text-sm">{desc}</p>
+                          <p className="text-muted text-sm">{sublabel}</p>
                         </div>
-                        <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
-                          projectType === id ? "bg-accent border-accent" : "border-black/20 dark:border-white/20"
-                        }`}>
-                          {projectType === id && <Check size={13} className="text-white" />}
+                        <div className="text-right shrink-0">
+                          <p className={`text-sm font-bold ${selectedPack === id ? "text-accent" : "text-muted"}`}>{price}</p>
                         </div>
                       </div>
                     </OptionCard>
@@ -203,25 +196,8 @@ export default function DevisSimulator() {
                 </div>
               )}
 
-              {/* Step 2 — Volume */}
+              {/* Step 2 — Délai */}
               {step === 1 && (
-                <div>
-                  <h2 className="text-xl font-semibold text-foreground mb-6">
-                    {projectType === "vitrine" ? "Nombre de pages ?" : "Complexité estimée ?"}
-                  </h2>
-                  <div className="grid grid-cols-2 gap-4">
-                    {ranges.map(({ id, label, desc }) => (
-                      <OptionCard key={id} selected={pages === id} onClick={() => setPages(id)}>
-                        <p className={`font-bold text-lg ${pages === id ? "text-accent" : "text-foreground"}`}>{label}</p>
-                        <p className="text-muted text-sm mt-1">{desc}</p>
-                      </OptionCard>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Step 3 — Délai */}
-              {step === 2 && (
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold text-foreground mb-6">Délai souhaité ?</h2>
                   {timelines.map(({ id, icon: Icon, label, desc }) => (
@@ -331,7 +307,7 @@ export default function DevisSimulator() {
               disabled={!canContinue[step]}
               className="flex items-center gap-1.5 bg-accent text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-glow hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
             >
-              {step === 2 ? "Voir l'estimation" : "Continuer"}
+              {step === 1 ? "Voir l'estimation" : "Continuer"}
               <ChevronRight size={17} />
             </button>
           </div>

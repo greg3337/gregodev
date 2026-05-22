@@ -10,7 +10,6 @@ const services = [
     icon: Monitor,
     title: "Sites Vitrines",
     tagline: "Un site qui convertit, pas juste qui informe",
-    price: "à partir de 890€",
     description:
       "Design sur-mesure, SEO optimisé, performances maximales. Un site qui reflète votre image et transforme les visiteurs en clients.",
   },
@@ -18,7 +17,6 @@ const services = [
     icon: Layers,
     title: "Applications SaaS",
     tagline: "De l'idée au produit en production",
-    price: "à partir de 2 500€",
     description:
       "Architecture solide, authentification, base de données, tableau de bord — tout ce qu'il faut pour lancer votre produit.",
   },
@@ -26,7 +24,6 @@ const services = [
     icon: Cpu,
     title: "Outils Internes",
     tagline: "Automatisez ce qui vous fait perdre du temps",
-    price: "Sur devis",
     description:
       "CRM, tableau de bord, outil de gestion spécifique à votre métier. Développé pour s'intégrer à votre flux de travail existant.",
   },
@@ -34,7 +31,6 @@ const services = [
     icon: Sparkles,
     title: "Automations IA",
     tagline: "Faites travailler l'IA pour votre business",
-    price: "Sur devis",
     description:
       "Chatbots, traitement de documents, génération de contenu, analyse de données — l'IA au service de votre productivité.",
   },
@@ -91,11 +87,6 @@ export default function Services() {
                   <p className="text-muted text-sm mt-4 leading-relaxed">
                     {service.description}
                   </p>
-                  <div className="mt-4 pt-4 border-t border-black/5 dark:border-white/5">
-                    <span className="text-accent font-semibold text-sm">
-                      {service.price}
-                    </span>
-                  </div>
                 </motion.div>
               );
             })}

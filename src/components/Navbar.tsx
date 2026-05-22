@@ -82,12 +82,13 @@ export default function Navbar() {
               <span className="block w-[18px] h-[18px]" />
             )}
           </button>
-          <a
+          <motion.a
             href="/devis"
+            whileTap={{ scale: 0.97 }}
             className="bg-accent text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-glow hover:bg-accent/90 transition-all duration-200"
           >
             Demander un devis
-          </a>
+          </motion.a>
         </div>
 
         {/* Mobile actions */}
@@ -133,12 +134,13 @@ export default function Navbar() {
             <Phone size={15} />
             06 58 93 67 88
           </a>
-          <a
+          <motion.a
             href="/devis"
+            whileTap={{ scale: 0.97 }}
             className="bg-accent text-white text-sm font-semibold px-5 py-3 rounded-xl text-center mt-2"
           >
             Demander un devis
-          </a>
+          </motion.a>
         </div>
       )}
     </motion.nav>

@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Check } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
+const MotionLink = motion(Link);
+
 const plans = [
   {
     name: "Starter",
@@ -88,6 +90,7 @@ export default function Tarifs() {
               <motion.div
                 key={plan.name}
                 variants={fadeInUp}
+                whileHover={{ y: -4 }}
                 className={`relative rounded-2xl p-8 flex flex-col ${
                   plan.highlighted
                     ? "border border-accent/50 shadow-glow bg-accent/5 scale-[1.02]"
@@ -118,8 +121,9 @@ export default function Tarifs() {
                   ))}
                 </ul>
 
-                <Link
+                <MotionLink
                   href={plan.href}
+                  whileTap={{ scale: 0.97 }}
                   className={`w-full py-3 px-6 rounded-xl text-sm font-semibold text-center transition-all duration-200 block ${
                     plan.highlighted
                       ? "bg-accent text-white shadow-glow hover:bg-accent/90"
@@ -127,7 +131,7 @@ export default function Tarifs() {
                   }`}
                 >
                   {plan.cta}
-                </Link>
+                </MotionLink>
               </motion.div>
             ))}
           </div>

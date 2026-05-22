@@ -10,6 +10,16 @@ export type BlogPost = {
 
 export const posts: BlogPost[] = [
   {
+    slug: "comment-un-site-web-peut-doubler-vos-demandes-de-contact",
+    title: "Comment un site web peut doubler vos demandes de contact",
+    excerpt:
+      "Un site bien conçu ne se contente pas d'exister — il travaille pour vous 24h/24. Voici 5 leviers concrets pour transformer vos visiteurs en prospects qualifiés.",
+    tags: ["Conseil", "Web", "Conversion"],
+    date: "22 mai 2026",
+    readTime: "6 min",
+    gradient: "from-sky-500 to-indigo-500",
+  },
+  {
     slug: "pourquoi-votre-site-vitrine-vous-fait-perdre-des-clients",
     title:
       "Pourquoi votre site vitrine vous fait perdre des clients (et comment y remédier)",

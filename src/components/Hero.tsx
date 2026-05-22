@@ -49,7 +49,7 @@ export default function Hero() {
           className="flex flex-col sm:flex-row gap-4 justify-center mb-16"
         >
           <a
-            href="#contact"
+            href="/devis"
             className="bg-accent text-white px-8 py-4 rounded-xl font-semibold shadow-glow hover:bg-accent/90 transition-all duration-200 text-base"
           >
             Demander un devis gratuit

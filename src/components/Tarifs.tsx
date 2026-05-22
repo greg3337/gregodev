@@ -25,7 +25,7 @@ const plans = [
   },
   {
     name: "Vitrine Pro",
-    price: "1 200€",
+    price: "1 500€",
     description: "Le site qui convertit vos visiteurs en clients",
     badge: "Le plus populaire",
     features: [
@@ -42,7 +42,7 @@ const plans = [
   },
   {
     name: "Sur-mesure",
-    price: "À partir de 1 500€",
+    price: "À partir de 2 000€",
     description: "Applications web, SaaS et outils internes",
     badge: null,
     features: [

@@ -7,7 +7,7 @@ import DevisSimulator from "@/components/DevisSimulator";
 export const metadata: Metadata = {
   title: "Simulateur de devis — Développeur Freelance Bordeaux",
   description:
-    "Estimez le budget de votre projet web en 2 questions. Site vitrine à partir de 490€, application SaaS dès 1 500€. Devis personnalisé gratuit en 48h à Bordeaux.",
+    "Estimez le budget de votre projet web en 2 questions. Site vitrine à partir de 490€, application SaaS dès 2 000€. Devis personnalisé gratuit en 48h à Bordeaux.",
   keywords: [
     "simulateur devis site web",
     "devis site vitrine Bordeaux",

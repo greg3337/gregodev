@@ -23,14 +23,14 @@ const packOptions = [
     icon: Monitor,
     label: "Pack Vitrine Pro",
     sublabel: "Site vitrine 5 à 8 pages",
-    price: "1 200€",
+    price: "1 500€",
   },
   {
     id: "sur-mesure",
     icon: Server,
     label: "Sur-mesure",
     sublabel: "Application web, SaaS ou outil interne",
-    price: "À partir de 1 500€",
+    price: "À partir de 2 000€",
   },
 ];
 
@@ -74,8 +74,8 @@ type Plan = keyof typeof packFeatures;
 
 function getQuote(plan: string): { plan: Plan; price: string; planLabel: string } {
   if (plan === "starter") return { plan: "starter", price: "490€", planLabel: "Starter" };
-  if (plan === "vitrine-pro") return { plan: "vitrine-pro", price: "1 200€", planLabel: "Vitrine Pro" };
-  return { plan: "sur-mesure", price: "À partir de 1 500€", planLabel: "Sur-mesure" };
+  if (plan === "vitrine-pro") return { plan: "vitrine-pro", price: "1 500€", planLabel: "Vitrine Pro" };
+  return { plan: "sur-mesure", price: "À partir de 2 000€", planLabel: "Sur-mesure" };
 }
 
 // ─── Animation ───────────────────────────────────────────────────────────────

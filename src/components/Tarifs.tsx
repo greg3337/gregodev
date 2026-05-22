@@ -105,6 +105,7 @@ export default function Tarifs() {
                   <div className="text-3xl font-bold text-foreground mt-2">
                     {plan.price}
                   </div>
+                  <p className="text-xs text-muted/60 mt-1">Paiement en 2 ou 3 fois sans frais disponible</p>
                   <p className="text-muted text-sm mt-2 leading-snug">{plan.description}</p>
                 </div>
 

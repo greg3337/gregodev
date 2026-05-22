@@ -28,7 +28,7 @@ export default function Footer() {
             </Link>
             <span className="text-muted/40">·</span>
             <Link href="/confidentialite" className="hover:text-foreground transition-colors">
-              Confidentialité
+              Politique de confidentialité
             </Link>
             <span className="text-muted/40">·</span>
             <Link href="/cgv" className="hover:text-foreground transition-colors">

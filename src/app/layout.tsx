@@ -47,10 +47,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://gregodev.com/og-image.png",
+        url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "GregoDev — Développeur Freelance Bordeaux",
+        alt: "GregoDev - Développeur Freelance Bordeaux",
       },
     ],
   },
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
     title: "GregoDev — Développeur Freelance Bordeaux",
     description:
       "Grégoire, développeur freelance à Bordeaux. Création de sites vitrines, applications SaaS et outils internes pour freelances et TPE. Devis gratuit en 48h.",
-    images: ["https://gregodev.com/og-image.png"],
+    images: ["/og-image.png"],
   },
 };
 

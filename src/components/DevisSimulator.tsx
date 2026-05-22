@@ -121,7 +121,7 @@ export default function DevisSimulator() {
     return "";
   });
   const [timeline, setTimeline] = useState("");
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "", consent: false });
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
   const canContinue = [selectedPack !== "", timeline !== ""];
@@ -158,7 +158,7 @@ export default function DevisSimulator() {
   function restart() {
     setDir(-1); setStep(0);
     setSelectedPack(""); setTimeline("");
-    setFormData({ name: "", email: "", message: "" });
+    setFormData({ name: "", email: "", message: "", consent: false });
     setFormStatus("idle");
   }
 
@@ -370,6 +370,27 @@ export default function DevisSimulator() {
                       required
                       className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-foreground placeholder:text-muted text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all resize-none"
                     />
+                                    <label className="flex items-start gap-3 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        checked={formData.consent}
+                        onChange={(e) => setFormData((f) => ({ ...f, consent: e.target.checked }))}
+                        required
+                        className="mt-0.5 w-4 h-4 shrink-0 accent-accent cursor-pointer"
+                      />
+                      <span className="text-xs text-muted leading-relaxed">
+                        J&apos;accepte la{" "}
+                        <a
+                          href="/confidentialite"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-accent hover:text-accent-light underline underline-offset-2 transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          politique de confidentialité
+                        </a>
+                      </span>
+                    </label>
                     {formStatus === "error" && (
                       <p className="text-red-400 text-xs">
                         Une erreur est survenue. Réessayez ou écrivez à{" "}
@@ -378,7 +399,7 @@ export default function DevisSimulator() {
                     )}
                     <button
                       type="submit"
-                      disabled={formStatus === "loading"}
+                      disabled={formStatus === "loading" || !formData.consent}
                       className="flex items-center justify-center gap-2 w-full bg-accent text-white font-semibold py-3.5 px-6 rounded-xl shadow-glow hover:bg-accent/90 disabled:opacity-60 disabled:cursor-not-allowed transition-all duration-200"
                     >
                       {formStatus === "loading" ? "Envoi en cours…" : (

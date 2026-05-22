@@ -5,6 +5,7 @@ import Providers from "@/components/Providers";
 import CookieBanner from "@/components/CookieBanner";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import ScrollToTop from "@/components/ScrollToTop";
+import PageTransition from "@/components/PageTransition";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -72,7 +73,7 @@ export default function RootLayout({
     <html lang="fr" className={`${spaceGrotesk.variable} h-full`} suppressHydrationWarning>
       <body className="min-h-full bg-background text-foreground antialiased">
         <Providers>
-          {children}
+          <PageTransition>{children}</PageTransition>
           <ScrollToTop />
           <CookieBanner />
           <GoogleAnalytics />

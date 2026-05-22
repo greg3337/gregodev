@@ -14,6 +14,7 @@ type FormData = {
   message: string;
   budget: string;
   projectType: string;
+  consent: boolean;
 };
 
 type FieldErrors = Partial<Record<keyof FormData, string>>;
@@ -175,6 +176,7 @@ export default function Contact() {
     message: "",
     budget: "",
     projectType: "",
+    consent: false,
   });
   const [errors, setErrors] = useState<FieldErrors>({});
   const [touched, setTouched] = useState<FieldTouched>({});
@@ -215,7 +217,7 @@ export default function Contact() {
     setTouched((t) => ({ ...t, [name]: true }));
     setErrors((err) => ({
       ...err,
-      [name]: validate(name as keyof FormData, form[name as keyof FormData]),
+      [name]: validate(name as keyof FormData, form[name as keyof FormData] as string),
     }));
   };
 
@@ -247,7 +249,7 @@ export default function Contact() {
 
   const resetForm = () => {
     setStatus("idle");
-    setForm({ name: "", email: "", subject: "", message: "", budget: "", projectType: "" });
+    setForm({ name: "", email: "", subject: "", message: "", budget: "", projectType: "", consent: false });
     setErrors({});
     setTouched({});
   };
@@ -467,10 +469,33 @@ export default function Contact() {
                       )}
                     </div>
 
+                    {/* Consentement */}
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={form.consent}
+                        onChange={(e) => setForm((f) => ({ ...f, consent: e.target.checked }))}
+                        required
+                        className="mt-0.5 w-4 h-4 shrink-0 accent-accent cursor-pointer"
+                      />
+                      <span className="text-xs text-muted leading-relaxed">
+                        J&apos;accepte la{" "}
+                        <a
+                          href="/confidentialite"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-accent hover:text-accent-light underline underline-offset-2 transition-colors"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          politique de confidentialité
+                        </a>
+                      </span>
+                    </label>
+
                     {/* Submit */}
                     <button
                       type="submit"
-                      disabled={status === "loading"}
+                      disabled={status === "loading" || !form.consent}
                       className={`flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl font-semibold text-sm transition-all duration-200 ${
                         status === "error"
                           ? "bg-red-600/20 border border-red-500/30 text-red-400"

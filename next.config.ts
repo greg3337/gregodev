@@ -39,6 +39,16 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "gregodev.com" }],
+        destination: "https://www.gregodev.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

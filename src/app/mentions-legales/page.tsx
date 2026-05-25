@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,8 +8,7 @@ export const metadata: Metadata = {
   title: "Mentions légales",
   description:
     "Mentions légales du site gregodev.com — Grégoire Pelizzardi, développeur freelance à Bordeaux. SIRET 989 527 809 00010.",
-  alternates: { canonical: "https://gregodev.com/mentions-legales" },
-  robots: { index: false, follow: false },
+  alternates: { canonical: "https://www.gregodev.com/mentions-legales" },
 };
 
 function H2({ children }: { children: React.ReactNode }) {

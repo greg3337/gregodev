@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 import { posts } from "@/lib/blog";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "SaaS Bordeaux",
     "veille tech freelance",
   ],
-  alternates: { canonical: "https://gregodev.com/blog" },
+  alternates: { canonical: "https://www.gregodev.com/blog" },
 };
 
 export default function BlogPage() {

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 
 function esc(str: string): string {
   return str
@@ -123,7 +123,7 @@ export async function POST(request: Request) {
     <div style="padding:20px 40px;border-top:1px solid rgba(255,255,255,0.06);">
       <p style="color:#475569;font-size:12px;margin:0;">
         Vous recevez cet email car vous avez utilisé le formulaire de contact sur
-        <a href="https://gregodev.com" style="color:#60a5fa;">gregodev.com</a>.
+        <a href="https://www.gregodev.com" style="color:#60a5fa;">gregodev.com</a>.
       </p>
     </div>
   </div>

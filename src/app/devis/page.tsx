@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+﻿import { Suspense } from "react";
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "devis application web Bordeaux",
     "estimation projet web",
   ],
-  alternates: { canonical: "https://gregodev.com/devis" },
+  alternates: { canonical: "https://www.gregodev.com/devis" },
 };
 
 export default function DevisPage() {

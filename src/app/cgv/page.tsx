@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,8 +8,7 @@ export const metadata: Metadata = {
   title: "CGV",
   description:
     "Conditions Générales de Vente de GregoDev — Grégoire Pelizzardi, développeur freelance à Bordeaux. Tarifs, acompte, délais et médiation.",
-  alternates: { canonical: "https://gregodev.com/cgv" },
-  robots: { index: false, follow: false },
+  alternates: { canonical: "https://www.gregodev.com/cgv" },
 };
 
 function H2({ children }: { children: React.ReactNode }) {

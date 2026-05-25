@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, ChevronLeft } from "lucide-react";
 
@@ -16,23 +16,23 @@ export const metadata: Metadata = {
     "retour expérience SaaS",
   ],
   alternates: {
-    canonical: "https://gregodev.com/blog/comment-j-ai-lance-mon-frigo-malin",
+    canonical: "https://www.gregodev.com/blog/comment-j-ai-lance-mon-frigo-malin",
   },
   openGraph: {
     title: "Comment j'ai lancé Mon Frigo Malin",
     description:
       "Retour d'expérience complet sur la création d'une PWA anti-gaspillage avec IA : stack technique, défis rencontrés et leçons apprises en production.",
-    url: "https://gregodev.com/blog/comment-j-ai-lance-mon-frigo-malin",
+    url: "https://www.gregodev.com/blog/comment-j-ai-lance-mon-frigo-malin",
     type: "article",
     siteName: "GregoDev",
-    images: [{ url: "https://gregodev.com/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "https://www.gregodev.com/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Comment j'ai lancé Mon Frigo Malin",
     description:
       "Retour d'expérience complet sur la création d'une PWA anti-gaspillage avec IA : stack technique, défis rencontrés et leçons apprises en production.",
-    images: ["https://gregodev.com/og-image.png"],
+    images: ["https://www.gregodev.com/og-image.png"],
   },
 };
 

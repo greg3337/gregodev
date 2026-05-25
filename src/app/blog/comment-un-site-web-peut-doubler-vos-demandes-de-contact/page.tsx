@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, ChevronLeft } from "lucide-react";
 
@@ -17,23 +17,23 @@ export const metadata: Metadata = {
   ],
   alternates: {
     canonical:
-      "https://gregodev.com/blog/comment-un-site-web-peut-doubler-vos-demandes-de-contact",
+      "https://www.gregodev.com/blog/comment-un-site-web-peut-doubler-vos-demandes-de-contact",
   },
   openGraph: {
     title: "Comment un site web peut doubler vos demandes de contact",
     description:
       "Un site bien conçu ne se contente pas d'exister — il travaille pour vous 24h/24. 5 leviers concrets pour convertir vos visiteurs en prospects qualifiés.",
-    url: "https://gregodev.com/blog/comment-un-site-web-peut-doubler-vos-demandes-de-contact",
+    url: "https://www.gregodev.com/blog/comment-un-site-web-peut-doubler-vos-demandes-de-contact",
     type: "article",
     siteName: "GregoDev",
-    images: [{ url: "https://gregodev.com/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "https://www.gregodev.com/og-image.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Comment un site web peut doubler vos demandes de contact",
     description:
       "Un site bien conçu ne se contente pas d'exister — il travaille pour vous 24h/24. 5 leviers concrets pour convertir vos visiteurs en prospects qualifiés.",
-    images: ["https://gregodev.com/og-image.png"],
+    images: ["https://www.gregodev.com/og-image.png"],
   },
 };
 

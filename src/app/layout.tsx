@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Providers from "@/components/Providers";
@@ -31,9 +31,9 @@ export const metadata: Metadata = {
     "SaaS Bordeaux",
     "GregoDev",
   ],
-  authors: [{ name: "Grégoire Pelizzardi", url: "https://gregodev.com" }],
+  authors: [{ name: "Grégoire Pelizzardi", url: "https://www.gregodev.com" }],
   creator: "Grégoire Pelizzardi",
-  metadataBase: new URL("https://gregodev.com"),
+  metadataBase: new URL("https://www.gregodev.com"),
   robots: { index: true, follow: true },
   icons: {
     icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: "GregoDev — Développeur Freelance Bordeaux",
     description:
       "Grégoire, développeur freelance à Bordeaux. Création de sites vitrines, applications SaaS et outils internes pour freelances et TPE. Devis gratuit en 48h.",
-    url: "https://gregodev.com",
+    url: "https://www.gregodev.com",
     siteName: "GregoDev",
     locale: "fr_FR",
     type: "website",

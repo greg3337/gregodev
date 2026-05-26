@@ -23,6 +23,10 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-6">
           <p className="text-muted text-sm">© 2026 GregoDev. Tous droits réservés.</p>
           <div className="flex items-center gap-4 text-xs text-muted">
+            <Link href="/about" className="hover:text-foreground transition-colors">
+              À propos
+            </Link>
+            <span className="text-muted/40">·</span>
             <Link href="/mentions-legales" className="hover:text-foreground transition-colors">
               Mentions légales
             </Link>

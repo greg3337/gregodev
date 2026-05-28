@@ -42,6 +42,14 @@ const projects = [
     tech: ["Next.js 14", "TypeScript", "Tailwind CSS"],
     flagship: false,
   },
+  {
+    title: "Électricité Moreau",
+    href: "https://electricien-chi.vercel.app",
+    tag: "Site Vitrine · Next.js",
+    description: "Site vitrine pour un électricien indépendant certifié RGE à Bordeaux. Services, tarifs, avis clients et formulaire de contact.",
+    tech: ["Next.js", "TypeScript", "Tailwind", "Framer Motion"],
+    flagship: false,
+  },
 ];
 
 export default function Projets() {

@@ -26,7 +26,7 @@ const projects = [
   },
   {
     title: "Nocturne Restaurant",
-    href: "href: "https://nocturne-adu6.vercel.app",",
+    href: "https://nocturne-adu6.vercel.app",
     tag: "Landing Page · Next.js",
     description:
       "Landing page premium pour un restaurant gastronomique. Design élégant, système de réservation intégré.",

@@ -45,8 +45,48 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="text-accent font-bold text-xl tracking-tight">
-          GregoDev
+        <Link href="/" aria-label="GregoDev — Accueil">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 340 70"
+            width="180"
+            height="37"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#00D2FF" />
+                <stop offset="100%" stopColor="#7B2FF7" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M 22 10 L 8 35 L 22 60"
+              fill="none"
+              stroke="url(#logo-grad)"
+              strokeWidth="4.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M 42 10 L 56 35 L 42 60"
+              fill="none"
+              stroke="url(#logo-grad)"
+              strokeWidth="4.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <text
+              x="74"
+              y="48"
+              fontFamily="'Space Grotesk', 'Helvetica Neue', sans-serif"
+              fontSize="38"
+              fontWeight="800"
+              letterSpacing="-1.5"
+            >
+              <tspan fill={isDark ? "#ffffff" : "#0F0F1A"}>Grego</tspan>
+              <tspan fill="url(#logo-grad)">Dev</tspan>
+            </text>
+          </svg>
         </Link>
 
         {/* Desktop nav links */}

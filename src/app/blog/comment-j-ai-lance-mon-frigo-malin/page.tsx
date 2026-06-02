@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, ChevronLeft } from "lucide-react";
+import ShareButtons from "@/components/ShareButtons";
 
 export const metadata: Metadata = {
   title: "Comment j'ai lancé Mon Frigo Malin",
@@ -235,6 +236,8 @@ export default function Article2() {
           . C&apos;est mon premier vrai produit SaaS — pas le dernier. Les leçons apprises ici ont
           directement amélioré la façon dont je construis des applications pour mes clients.
         </P>
+
+        <ShareButtons title="Comment j'ai lancé Mon Frigo Malin : de l'idée à l'app IA en production" />
 
         {/* CTA */}
         <div className="mt-14 p-8 rounded-2xl bg-accent/5 border border-accent/20 text-center">

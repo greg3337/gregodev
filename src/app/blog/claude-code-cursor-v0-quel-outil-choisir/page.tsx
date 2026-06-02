@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, ChevronLeft } from "lucide-react";
+import ShareButtons from "@/components/ShareButtons";
 
 export const metadata: Metadata = {
   title: "Claude Code vs Cursor vs v0 : quel outil IA choisir ?",
@@ -309,6 +310,8 @@ export default function Article3() {
           stratégique pour livrer des projets web de qualité dans des délais que le développement
           traditionnel ne permettrait pas.
         </P>
+
+        <ShareButtons title="Claude Code, Cursor, v0 : quel outil IA choisir pour développer son projet web en 2026 ?" />
 
         {/* CTA */}
         <div className="mt-14 p-8 rounded-2xl bg-accent/5 border border-accent/20 text-center">

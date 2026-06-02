@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, ChevronLeft } from "lucide-react";
+import ShareButtons from "@/components/ShareButtons";
 
 export const metadata: Metadata = {
   title: "Comment un site web peut doubler vos demandes de contact",
@@ -259,6 +260,8 @@ export default function ArticleDoublerDemandes() {
           Un site qui convertit bien, c&apos;est un site qui a été pensé pour son visiteur — pas
           pour impressionner son propriétaire.
         </P>
+
+        <ShareButtons title="Comment un site web peut doubler vos demandes de contact" />
 
         {/* CTA */}
         <div className="mt-14 p-8 rounded-2xl bg-accent/5 border border-accent/20 text-center">

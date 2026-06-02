@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, ChevronLeft } from "lucide-react";
+import ShareButtons from "@/components/ShareButtons";
 
 export const metadata: Metadata = {
   title: "De l'idée au déploiement en 48h — mon process de travail",
@@ -164,6 +165,8 @@ export default function ArticleProcess48h() {
           C&apos;est cette disponibilité après livraison qui fait qu&apos;un client recommande à
           ses contacts. Le site c&apos;est le produit, mais la relation c&apos;est ce qui dure.
         </P>
+
+        <ShareButtons title="De l'idée au déploiement en 48h — mon process de travail" />
 
         {/* CTA */}
         <div className="mt-14 p-8 rounded-2xl bg-accent/5 border border-accent/20 text-center">

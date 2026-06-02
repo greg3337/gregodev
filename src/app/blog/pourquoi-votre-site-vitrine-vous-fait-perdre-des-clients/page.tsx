@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, ChevronLeft } from "lucide-react";
+import ShareButtons from "@/components/ShareButtons";
 
 export const metadata: Metadata = {
   title: "Pourquoi votre site vitrine vous fait perdre des clients",
@@ -216,6 +217,8 @@ export default function Article1() {
           Ces 5 erreurs sont simples à corriger — et la plupart ne coûtent pas cher à régler si vous
           avez les bonnes bases techniques.
         </P>
+
+        <ShareButtons title="Pourquoi votre site vitrine vous fait perdre des clients (et comment y remédier)" />
 
         {/* CTA */}
         <div className="mt-14 p-8 rounded-2xl bg-accent/5 border border-accent/20 text-center">

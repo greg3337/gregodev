@@ -17,6 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${base}/blog/de-lidee-au-deploiement-en-48h`,
+      lastModified: new Date("2026-06-02"),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
       url: `${base}/blog/pourquoi-votre-site-vitrine-vous-fait-perdre-des-clients`,
       lastModified: new Date("2026-05-20"),
       changeFrequency: "monthly",

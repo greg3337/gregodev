@@ -10,6 +10,16 @@ export type BlogPost = {
 
 export const posts: BlogPost[] = [
   {
+    slug: "de-lidee-au-deploiement-en-48h",
+    title: "De l'idée au déploiement en 48h — mon process de travail",
+    excerpt:
+      "Comment je livre un site vitrine en 48h : de la compréhension du besoin au déploiement sur Vercel. Mon process détaillé, étape par étape.",
+    tags: ["Process", "Dev", "Freelance"],
+    date: "2 juin 2026",
+    readTime: "6 min",
+    gradient: "from-violet-600 to-pink-500",
+  },
+  {
     slug: "comment-un-site-web-peut-doubler-vos-demandes-de-contact",
     title: "Comment un site web peut doubler vos demandes de contact",
     excerpt:

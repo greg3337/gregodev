@@ -35,9 +35,7 @@ export const metadata: Metadata = {
   creator: "Grégoire Pelizzardi",
   metadataBase: new URL("https://www.gregodev.com"),
   robots: { index: true, follow: true },
-  icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-  },
+  icons: { icon: "/favicon.svg" },
   openGraph: {
     title: "GregoDev — Développeur Freelance Bordeaux",
     description:

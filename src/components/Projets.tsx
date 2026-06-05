@@ -34,11 +34,11 @@ const projects = [
     flagship: false,
   },
   {
-    title: "Lumea Beauty",
-    href: "https://lumea-beauty-e-commerce.vercel.app",
-    tag: "E-commerce · Next.js",
+    title: "Cave & Terroir",
+    href: "https://cave-terroir.vercel.app",
+    tag: "E-commerce · Next.js · Épicerie Fine",
     description:
-      "Boutique en ligne pour une marque de cosmétiques naturels. Catalogue produits, panier, comptes clients.",
+      "E-commerce d'épicerie fine bordelaise — vins, fromages et produits du terroir. Design élégant aux tons bordeaux, crème et or.",
     tech: ["Next.js 14", "TypeScript", "Tailwind CSS"],
     flagship: false,
   },

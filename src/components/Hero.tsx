@@ -5,7 +5,6 @@ import { motion, useInView } from "framer-motion";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
 const stats = [
-  { value: "15+", label: "Projets livrés" },
   { value: "100%", label: "Remote-friendly" },
   { value: "48h", label: "Réponse" },
 ];

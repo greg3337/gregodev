@@ -10,6 +10,16 @@ export type BlogPost = {
 
 export const posts: BlogPost[] = [
   {
+    slug: "ia-remplacera-developpeurs-web",
+    title: "L'IA va-t-elle remplacer les développeurs web ?",
+    excerpt:
+      "L'IA transforme le métier de développeur web, mais ne le remplace pas. Découvrez pourquoi faire appel à un développeur humain reste indispensable en 2026.",
+    tags: ["IA", "Dev", "Freelance"],
+    date: "9 juin 2026",
+    readTime: "8 min",
+    gradient: "from-violet-600 to-indigo-500",
+  },
+  {
     slug: "de-lidee-au-deploiement-en-48h",
     title: "De l'idée au déploiement en 48h — mon process de travail",
     excerpt:

@@ -4,16 +4,18 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Menu, X, Sun, Moon, Phone } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 import { useTheme } from "next-themes";
 
-const navLinks = [
-  { label: "Services", href: "#services" },
+const NAV_ITEMS = [
+  { label: "Services", anchor: "services" },
   { label: "À propos", href: "/about" },
-  { label: "Tarifs", href: "#tarifs" },
+  { label: "Tarifs", anchor: "tarifs" },
   { label: "Devis", href: "/devis" },
-  { label: "Projets", href: "#projets" },
-  { label: "Blog", href: "#blog" },
-  { label: "Contact", href: "#contact" },
+  { label: "Projets", anchor: "projets" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", anchor: "contact" },
 ];
 
 export default function Navbar() {
@@ -21,6 +23,13 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+
+  const navLinks = NAV_ITEMS.map((item) => ({
+    label: item.label,
+    href: item.href ?? (isHome ? `#${item.anchor}` : `/#${item.anchor}`),
+  }));
 
   useEffect(() => {
     setMounted(true);

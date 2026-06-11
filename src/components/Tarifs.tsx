@@ -21,10 +21,8 @@ const plans = [
       "SEO de base",
       "Formulaire de contact",
       "Déploiement inclus",
-      "Livraison en 7 jours",
-      "1 révision incluse",
-      "Basé sur templates optimisés",
     ],
+    featuresNote: "Livraison en 7 jours · 1 révision incluse · Basé sur templates optimisés",
     cta: "Choisir Starter",
     href: "/devis?pack=starter",
     highlighted: false,
@@ -43,6 +41,7 @@ const plans = [
       "Google Analytics inclus",
       "Déploiement inclus",
     ],
+    featuresNote: null,
     cta: "Choisir Vitrine Pro",
     href: "/devis?pack=vitrine-pro",
     highlighted: true,
@@ -61,6 +60,7 @@ const plans = [
       "Intégrations IA",
       "Support 3 mois",
     ],
+    featuresNote: null,
     cta: "Demander un devis",
     href: "/devis?pack=sur-mesure",
     highlighted: false,
@@ -140,7 +140,7 @@ export default function Tarifs() {
                   )}
                 </div>
 
-                <ul className="flex flex-col gap-3 mb-8 flex-1">
+                <ul className="flex flex-col gap-3 mb-3 flex-1">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-3 text-sm text-muted">
                       <Check size={16} className="text-accent shrink-0" />
@@ -148,6 +148,9 @@ export default function Tarifs() {
                     </li>
                   ))}
                 </ul>
+                {plan.featuresNote && (
+                  <p className="text-xs text-muted/60 italic mb-5">{plan.featuresNote}</p>
+                )}
 
                 <MotionLink
                   href={plan.href}
@@ -205,7 +208,7 @@ export default function Tarifs() {
                   <MotionLink
                     href={maintenancePlan.href}
                     whileTap={{ scale: 0.97 }}
-                    className="border border-accent/30 text-accent hover:bg-accent/10 py-2.5 px-5 rounded-xl text-sm font-semibold text-center transition-all duration-200 whitespace-nowrap"
+                    className="bg-accent text-white shadow-glow hover:bg-accent/90 py-2.5 px-5 rounded-xl text-sm font-semibold text-center transition-all duration-200 whitespace-nowrap"
                   >
                     {maintenancePlan.cta}
                   </MotionLink>

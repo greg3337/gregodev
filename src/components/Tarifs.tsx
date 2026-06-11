@@ -183,7 +183,7 @@ export default function Tarifs() {
                       <h3 className="text-foreground font-bold text-xl">
                         {maintenancePlan.name}
                       </h3>
-                      <span className="text-xs text-accent font-semibold bg-accent/10 px-3 py-0.5 rounded-full whitespace-nowrap">
+                      <span className="text-xs text-accent font-semibold bg-accent/10 px-3 py-0.5 rounded-full">
                         {maintenancePlan.badge}
                       </span>
                     </div>

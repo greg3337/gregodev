@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
-import { Check } from "lucide-react";
+import { Check, Shield } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
 const MotionLink = motion(Link);
@@ -13,6 +13,7 @@ const plans = [
     name: "Starter",
     price: "490€",
     description: "Idéal pour lancer votre présence en ligne",
+    subtitle: null,
     badge: null,
     features: [
       "Landing page ou site 3 pages",
@@ -20,6 +21,9 @@ const plans = [
       "SEO de base",
       "Formulaire de contact",
       "Déploiement inclus",
+      "Livraison en 7 jours",
+      "1 révision incluse",
+      "Basé sur templates optimisés",
     ],
     cta: "Choisir Starter",
     href: "/devis?pack=starter",
@@ -29,6 +33,7 @@ const plans = [
     name: "Vitrine Pro",
     price: "1 500€",
     description: "Le site qui convertit vos visiteurs en clients",
+    subtitle: null,
     badge: "Le plus populaire",
     features: [
       "Site 5 à 8 pages",
@@ -46,6 +51,8 @@ const plans = [
     name: "Sur-mesure",
     price: "À partir de 2 000€",
     description: "Applications web, SaaS et outils internes",
+    subtitle:
+      "Tarif de départ pour un MVP fonctionnel ou un outil interne ciblé. Devis personnalisé selon le périmètre.",
     badge: null,
     features: [
       "Application web complète",
@@ -59,6 +66,22 @@ const plans = [
     highlighted: false,
   },
 ];
+
+const maintenancePlan = {
+  name: 'Maintenance "Sérénité"',
+  price: "59€",
+  period: "/mois",
+  badge: "Sans engagement · Résiliation à tout moment",
+  description: "Votre site entre de bonnes mains, en continu.",
+  features: [
+    "Hébergement & déploiement Vercel",
+    "Mises à jour de sécurité",
+    "Sauvegardes mensuelles",
+    "1h de modifications incluse",
+  ],
+  cta: "Souscrire à la maintenance",
+  href: "/devis?pack=maintenance",
+};
 
 export default function Tarifs() {
   const ref = useRef(null);
@@ -110,6 +133,11 @@ export default function Tarifs() {
                   </div>
                   <p className="text-xs text-muted/60 mt-1">Paiement en 2 ou 3 fois sans frais disponible</p>
                   <p className="text-muted text-sm mt-2 leading-snug">{plan.description}</p>
+                  {plan.subtitle && (
+                    <p className="text-muted/70 text-xs mt-2 leading-relaxed italic">
+                      {plan.subtitle}
+                    </p>
+                  )}
                 </div>
 
                 <ul className="flex flex-col gap-3 mb-8 flex-1">
@@ -135,6 +163,56 @@ export default function Tarifs() {
               </motion.div>
             ))}
           </div>
+
+          {/* Maintenance plan */}
+          <motion.div variants={fadeInUp} className="mt-8">
+            <motion.div
+              whileHover={{ y: -4 }}
+              className="relative card-border rounded-2xl p-8 bg-black/[0.03] dark:bg-white/[0.02]"
+            >
+              <div className="flex flex-col md:flex-row md:items-center gap-6">
+                <div className="flex items-center gap-4 shrink-0">
+                  <div className="rounded-xl bg-accent/10 p-3">
+                    <Shield size={22} className="text-accent" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-3 flex-wrap">
+                      <h3 className="text-foreground font-bold text-xl">
+                        {maintenancePlan.name}
+                      </h3>
+                      <span className="text-xs text-accent font-semibold bg-accent/10 px-3 py-0.5 rounded-full whitespace-nowrap">
+                        {maintenancePlan.badge}
+                      </span>
+                    </div>
+                    <p className="text-muted text-sm mt-0.5">{maintenancePlan.description}</p>
+                  </div>
+                </div>
+
+                <ul className="flex flex-col sm:flex-row sm:flex-wrap gap-x-6 gap-y-2 flex-1">
+                  {maintenancePlan.features.map((feature) => (
+                    <li key={feature} className="flex items-center gap-2 text-sm text-muted">
+                      <Check size={14} className="text-accent shrink-0" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-3xl font-bold text-foreground">{maintenancePlan.price}</span>
+                    <span className="text-muted text-sm">{maintenancePlan.period}</span>
+                  </div>
+                  <MotionLink
+                    href={maintenancePlan.href}
+                    whileTap={{ scale: 0.97 }}
+                    className="border border-accent/30 text-accent hover:bg-accent/10 py-2.5 px-5 rounded-xl text-sm font-semibold text-center transition-all duration-200 whitespace-nowrap"
+                  >
+                    {maintenancePlan.cta}
+                  </MotionLink>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

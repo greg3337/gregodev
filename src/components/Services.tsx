@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Monitor, Layers, Cpu, Sparkles } from "lucide-react";
+import { Monitor, Layers, Cpu, Sparkles, Zap } from "lucide-react";
 import { fadeInUp, staggerContainer } from "@/lib/animations";
 
 const services = [
@@ -91,6 +91,25 @@ export default function Services() {
               );
             })}
           </div>
+
+          <motion.div
+            variants={fadeInUp}
+            className="mt-10 rounded-2xl p-6 bg-accent/5 border border-accent/20"
+          >
+            <div className="flex items-start gap-4">
+              <div className="rounded-xl bg-accent/10 p-3 shrink-0">
+                <Zap size={20} className="text-accent" />
+              </div>
+              <div>
+                <h3 className="text-foreground font-semibold text-lg">
+                  Next.js vs WordPress
+                </h3>
+                <p className="text-muted text-sm mt-2 leading-relaxed">
+                  Contrairement à WordPress, vos sites sont développés en Next.js : 3x plus rapides, zéro plugin vulnérable, SEO technique natif et score Lighthouse 95+. Un avantage concret sur Google.
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

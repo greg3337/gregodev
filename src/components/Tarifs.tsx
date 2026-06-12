@@ -10,8 +10,10 @@ const MotionLink = motion(Link);
 
 const plans = [
   {
+    id: "starter",
     name: "Starter",
     price: "490€",
+    period: null,
     description: "Idéal pour lancer votre présence en ligne",
     subtitle: null,
     badge: null,
@@ -28,8 +30,10 @@ const plans = [
     highlighted: false,
   },
   {
+    id: "vitrine-pro",
     name: "Vitrine Pro",
     price: "1 500€",
+    period: null,
     description: "Le site qui convertit vos visiteurs en clients",
     subtitle: null,
     badge: "Le plus populaire",
@@ -47,8 +51,10 @@ const plans = [
     highlighted: true,
   },
   {
+    id: "sur-mesure",
     name: "Sur-mesure",
     price: "À partir de 2 000€",
+    period: null,
     description: "Applications web, SaaS et outils internes",
     subtitle:
       "Tarif de départ pour un MVP fonctionnel ou un outil interne ciblé. Devis personnalisé selon le périmètre.",
@@ -65,23 +71,26 @@ const plans = [
     href: "/devis?pack=sur-mesure",
     highlighted: false,
   },
+  {
+    id: "maintenance",
+    name: 'Maintenance "Sérénité"',
+    price: "59€",
+    period: "/mois",
+    description: "Votre site entre de bonnes mains, en continu.",
+    subtitle: null,
+    badge: "Sans engagement",
+    features: [
+      "Hébergement & déploiement Vercel",
+      "Mises à jour de sécurité",
+      "Sauvegardes mensuelles",
+      "1h de modifications incluse",
+    ],
+    featuresNote: "Résiliation à tout moment · Facturation mensuelle",
+    cta: "Souscrire à la maintenance",
+    href: "/devis?pack=maintenance",
+    highlighted: false,
+  },
 ];
-
-const maintenancePlan = {
-  name: 'Maintenance "Sérénité"',
-  price: "59€",
-  period: "/mois",
-  badge: "Sans engagement · Résiliation à tout moment",
-  description: "Votre site entre de bonnes mains, en continu.",
-  features: [
-    "Hébergement & déploiement Vercel",
-    "Mises à jour de sécurité",
-    "Sauvegardes mensuelles",
-    "1h de modifications incluse",
-  ],
-  cta: "Souscrire à la maintenance",
-  href: "/devis?pack=maintenance",
-};
 
 export default function Tarifs() {
   const ref = useRef(null);
@@ -108,15 +117,15 @@ export default function Tarifs() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch">
             {plans.map((plan) => (
               <motion.div
-                key={plan.name}
+                key={plan.id}
                 variants={fadeInUp}
                 whileHover={{ y: -4 }}
                 className={`relative rounded-2xl p-8 flex flex-col ${
                   plan.highlighted
-                    ? "border border-accent/50 shadow-glow bg-accent/5 scale-[1.02]"
+                    ? "border border-accent/50 shadow-glow bg-accent/5 md:scale-[1.02]"
                     : "card-border bg-black/[0.03] dark:bg-white/[0.02]"
                 }`}
               >
@@ -126,12 +135,25 @@ export default function Tarifs() {
                   </span>
                 )}
 
+                {plan.id === "maintenance" && (
+                  <div className="mb-4">
+                    <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-accent/10">
+                      <Shield size={20} className="text-accent" />
+                    </div>
+                  </div>
+                )}
+
                 <div className="mb-6">
                   <h3 className="text-foreground font-bold text-xl">{plan.name}</h3>
-                  <div className="text-3xl font-bold text-foreground mt-2">
-                    {plan.price}
+                  <div className="flex items-baseline gap-0.5 mt-2">
+                    <span className="text-3xl font-bold text-foreground">{plan.price}</span>
+                    {plan.period && (
+                      <span className="text-muted text-sm">{plan.period}</span>
+                    )}
                   </div>
-                  <p className="text-xs text-muted/60 mt-1">Paiement en 2 ou 3 fois sans frais disponible</p>
+                  {!plan.period && (
+                    <p className="text-xs text-muted/60 mt-1">Paiement en 2 ou 3 fois sans frais disponible</p>
+                  )}
                   <p className="text-muted text-sm mt-2 leading-snug">{plan.description}</p>
                   {plan.subtitle && (
                     <p className="text-muted/70 text-xs mt-2 leading-relaxed italic">
@@ -158,7 +180,9 @@ export default function Tarifs() {
                   className={`w-full py-3 px-6 rounded-xl text-sm font-semibold text-center transition-all duration-200 block ${
                     plan.highlighted
                       ? "bg-accent text-white shadow-glow hover:bg-accent/90"
-                      : "border border-accent/30 text-accent hover:bg-accent/10"
+                      : plan.id === "maintenance"
+                        ? "bg-accent/10 text-accent border border-accent/20 hover:bg-accent/20"
+                        : "border border-accent/30 text-accent hover:bg-accent/10"
                   }`}
                 >
                   {plan.cta}
@@ -166,56 +190,6 @@ export default function Tarifs() {
               </motion.div>
             ))}
           </div>
-
-          {/* Maintenance plan */}
-          <motion.div variants={fadeInUp} className="mt-8">
-            <motion.div
-              whileHover={{ y: -4 }}
-              className="relative card-border rounded-2xl p-8 bg-black/[0.03] dark:bg-white/[0.02]"
-            >
-              <div className="flex flex-col md:flex-row md:items-center gap-6">
-                <div className="flex items-center gap-4 shrink-0">
-                  <div className="rounded-xl bg-accent/10 p-3">
-                    <Shield size={22} className="text-accent" />
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <h3 className="text-foreground font-bold text-xl">
-                        {maintenancePlan.name}
-                      </h3>
-                      <span className="text-xs text-accent font-semibold bg-accent/10 px-3 py-0.5 rounded-full">
-                        {maintenancePlan.badge}
-                      </span>
-                    </div>
-                    <p className="text-muted text-sm mt-0.5">{maintenancePlan.description}</p>
-                  </div>
-                </div>
-
-                <ul className="flex flex-col sm:flex-row sm:flex-wrap gap-x-6 gap-y-2 flex-1">
-                  {maintenancePlan.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-muted">
-                      <Check size={14} className="text-accent shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex flex-col items-start md:items-end gap-3 shrink-0">
-                  <div className="flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-foreground">{maintenancePlan.price}</span>
-                    <span className="text-muted text-sm">{maintenancePlan.period}</span>
-                  </div>
-                  <MotionLink
-                    href={maintenancePlan.href}
-                    whileTap={{ scale: 0.97 }}
-                    className="bg-accent text-white shadow-glow hover:bg-accent/90 py-2.5 px-5 rounded-xl text-sm font-semibold text-center transition-all duration-200 whitespace-nowrap"
-                  >
-                    {maintenancePlan.cta}
-                  </MotionLink>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
         </motion.div>
       </div>
     </section>

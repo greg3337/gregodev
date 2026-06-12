@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import {
   ChevronRight, ChevronLeft, Check, Zap, Clock, Calendar,
-  Globe, Monitor, Server, Sparkles, RefreshCw, ArrowRight, Shield, X,
+  Globe, Monitor, Server, Sparkles, RefreshCw, ArrowRight, Shield, X, Download,
 } from "lucide-react";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
@@ -144,6 +144,7 @@ export default function DevisSimulator() {
   const [timeline, setTimeline] = useState("");
   const [formData, setFormData] = useState({ name: "", email: "", message: "", consent: false });
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [pdfLoading, setPdfLoading] = useState(false);
 
   const canContinue = [selectedPack !== "", withMaintenance !== null, timeline !== ""];
   const isDone = step === 3;
@@ -194,6 +195,49 @@ export default function DevisSimulator() {
     setWithMaintenance(val);
     setDir(1);
     setStep(2);
+  }
+
+  async function downloadPDF() {
+    if (!quote) return;
+    setPdfLoading(true);
+    try {
+      const [{ pdf }, { DevisRecapPDF }] = await Promise.all([
+        import("@react-pdf/renderer"),
+        import("./DevisRecapPDF"),
+      ]);
+      const today = new Date().toLocaleDateString("fr-FR", {
+        day: "numeric", month: "long", year: "numeric",
+      });
+      const timelineLabel = timelines.find((t) => t.id === timeline)?.label ?? "";
+      const blob = await pdf(
+        <DevisRecapPDF
+          name={formData.name}
+          email={formData.email}
+          packLabel={quote.planLabel}
+          packPrice={quote.price}
+          timeline={timelineLabel}
+          withMaintenance={withMaintenance === true}
+          date={today}
+        />
+      ).toBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const safeName = formData.name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[̀-ͯ]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "");
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `devis-gregodev-${safeName}-${dateStr}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } finally {
+      setPdfLoading(false);
+    }
   }
 
   function restart() {
@@ -542,6 +586,14 @@ export default function DevisSimulator() {
                     </div>
                     <p className="text-foreground font-semibold">Message envoyé !</p>
                     <p className="text-muted text-sm mt-1">Je vous réponds sous 48h.</p>
+                    <button
+                      onClick={downloadPDF}
+                      disabled={pdfLoading}
+                      className="mt-5 inline-flex items-center gap-2 bg-accent/10 hover:bg-accent/20 border border-accent/30 text-accent text-sm font-semibold px-5 py-2.5 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Download size={15} />
+                      {pdfLoading ? "Génération…" : "Télécharger mon récap PDF"}
+                    </button>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4">

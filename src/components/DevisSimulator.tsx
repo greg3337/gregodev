@@ -500,6 +500,37 @@ export default function DevisSimulator() {
                 )}
               </div>
 
+              {/* Investissement total */}
+              {withMaintenance && quote.plan !== "maintenance" && (
+                <div className="rounded-2xl border border-accent/50 bg-accent/[0.06] shadow-glow p-6">
+                  <p className="text-xs font-semibold text-accent uppercase tracking-wide mb-5">Investissement total</p>
+                  <div className="grid grid-cols-2 gap-3 mb-5">
+                    <div className="rounded-xl bg-black/[0.04] dark:bg-white/[0.04] p-4 text-center">
+                      <p className={`font-bold text-foreground ${quote.plan === "sur-mesure" ? "text-lg" : "text-2xl"}`}>
+                        {quote.price}
+                      </p>
+                      <p className="text-xs text-muted mt-1.5">À la livraison<br />(paiement unique)</p>
+                    </div>
+                    <div className="rounded-xl bg-accent/10 p-4 text-center">
+                      <p className="text-2xl font-bold text-accent">
+                        59€<span className="text-base font-semibold">/mois</span>
+                      </p>
+                      <p className="text-xs text-muted mt-1.5">Maintenance<br />Sérénité</p>
+                    </div>
+                  </div>
+                  <div className="border-t border-accent/20 pt-4 text-center">
+                    <p className="text-xs text-muted mb-2">Soit au total</p>
+                    <p className="font-bold text-foreground leading-tight">
+                      <span className={quote.plan === "sur-mesure" ? "text-2xl" : "text-3xl"}>{quote.price}</span>
+                      <span className="text-accent text-2xl mx-2">+</span>
+                      <span className="text-3xl">59€</span>
+                      <span className="text-accent text-xl font-semibold">/mois</span>
+                    </p>
+                    <p className="text-xs text-muted/70 mt-2">Maintenance résiliable à tout moment · sans engagement</p>
+                  </div>
+                </div>
+              )}
+
               {/* Contact form */}
               <div className="card-border rounded-2xl p-6 bg-black/[0.03] dark:bg-white/[0.02]">
                 <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-6">Démarrer ce projet</p>

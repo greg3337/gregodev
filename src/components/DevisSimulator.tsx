@@ -142,7 +142,7 @@ export default function DevisSimulator() {
   });
   const [withMaintenance, setWithMaintenance] = useState<boolean | null>(null);
   const [timeline, setTimeline] = useState("");
-  const [formData, setFormData] = useState({ name: "", email: "", message: "", consent: false });
+  const [formData, setFormData] = useState({ name: "", email: "", address: "", message: "", consent: false });
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [pdfLoading, setPdfLoading] = useState(false);
 
@@ -205,19 +205,26 @@ export default function DevisSimulator() {
         import("@react-pdf/renderer"),
         import("./DevisRecapPDF"),
       ]);
-      const today = new Date().toLocaleDateString("fr-FR", {
-        day: "numeric", month: "long", year: "numeric",
-      });
+      const now = new Date();
+      const fmt = (d: Date) => d.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", year: "numeric" });
+      const emissionDate = fmt(now);
+      const validityDate = fmt(new Date(now.getTime() + 30 * 24 * 3600 * 1000));
+      const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 1).getTime()) / 86400000) + 1;
+      const quoteNumber = `DEV-${now.getFullYear()}-${String(dayOfYear).padStart(3, "0")}`;
       const timelineLabel = timelines.find((t) => t.id === timeline)?.label ?? "";
       const blob = await pdf(
         <DevisRecapPDF
+          quoteNumber={quoteNumber}
+          emissionDate={emissionDate}
+          validityDate={validityDate}
           name={formData.name}
           email={formData.email}
+          address={formData.address}
+          packId={selectedPack}
           packLabel={quote.planLabel}
           packPrice={quote.price}
           timeline={timelineLabel}
           withMaintenance={withMaintenance === true}
-          date={today}
         />
       ).toBlob();
       const url = URL.createObjectURL(blob);
@@ -243,7 +250,7 @@ export default function DevisSimulator() {
   function restart() {
     setDir(-1); setStep(0);
     setSelectedPack(""); setWithMaintenance(null); setTimeline("");
-    setFormData({ name: "", email: "", message: "", consent: false });
+    setFormData({ name: "", email: "", address: "", message: "", consent: false });
     setFormStatus("idle");
   }
 
@@ -611,6 +618,13 @@ export default function DevisSimulator() {
                       value={formData.email}
                       onChange={(e) => setFormData((f) => ({ ...f, email: e.target.value }))}
                       required
+                      className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-foreground placeholder:text-muted text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Votre adresse (rue, code postal, ville)"
+                      value={formData.address}
+                      onChange={(e) => setFormData((f) => ({ ...f, address: e.target.value }))}
                       className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-foreground placeholder:text-muted text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all"
                     />
                     <textarea

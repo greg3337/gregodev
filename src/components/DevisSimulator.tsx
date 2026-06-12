@@ -586,13 +586,25 @@ export default function DevisSimulator() {
               <div className="card-border rounded-2xl p-6 bg-black/[0.03] dark:bg-white/[0.02]">
                 <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-6">Démarrer ce projet</p>
 
-                {formStatus === "success" ? (
+                {formStatus === "success" || formStatus === "error" ? (
                   <div className="text-center py-6">
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent/10 mb-4">
-                      <Check size={22} className="text-accent" />
+                    <div className={`inline-flex items-center justify-center w-12 h-12 rounded-full mb-4 ${formStatus === "success" ? "bg-accent/10" : "bg-orange-400/10"}`}>
+                      <Check size={22} className={formStatus === "success" ? "text-accent" : "text-orange-400"} />
                     </div>
-                    <p className="text-foreground font-semibold">Message envoyé !</p>
-                    <p className="text-muted text-sm mt-1">Je vous réponds sous 48h.</p>
+                    {formStatus === "success" ? (
+                      <>
+                        <p className="text-foreground font-semibold">Message envoyé !</p>
+                        <p className="text-muted text-sm mt-1">Je vous réponds sous 48h.</p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-foreground font-semibold">Demande enregistrée</p>
+                        <p className="text-muted text-sm mt-1">
+                          L&apos;envoi email a échoué — écrivez directement à{" "}
+                          <a href="mailto:contact@gregodev.com" className="text-accent underline underline-offset-2">contact@gregodev.com</a>.
+                        </p>
+                      </>
+                    )}
                     <button
                       onClick={downloadPDF}
                       disabled={pdfLoading}
@@ -655,12 +667,6 @@ export default function DevisSimulator() {
                         </a>
                       </span>
                     </label>
-                    {formStatus === "error" && (
-                      <p className="text-red-400 text-xs">
-                        Une erreur est survenue. Réessayez ou écrivez à{" "}
-                        <a href="mailto:contact@gregodev.com" className="underline">contact@gregodev.com</a>.
-                      </p>
-                    )}
                     <button
                       type="submit"
                       disabled={formStatus === "loading" || !formData.consent}

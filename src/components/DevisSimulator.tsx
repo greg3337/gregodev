@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import {
   ChevronRight, ChevronLeft, Check, Zap, Clock, Calendar,
-  Globe, Monitor, Server, Sparkles, RefreshCw, ArrowRight, Shield,
+  Globe, Monitor, Server, Sparkles, RefreshCw, ArrowRight, Shield, X,
 } from "lucide-react";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
@@ -47,7 +47,9 @@ const timelines = [
   { id: "flexible", icon: Calendar, label: "Flexible", desc: "Plus d'un mois" },
 ];
 
-const STEPS = ["Pack", "Délai"];
+// Step indices for non-maintenance packs: 0=Pack, 1=Options, 2=Délai, 3=Result
+// Step indices for maintenance pack:       0=Pack, skip to 3=Result
+const STEPS = ["Pack", "Options", "Délai"];
 
 // ─── Pack features ───────────────────────────────────────────────────────────
 
@@ -126,7 +128,7 @@ export default function DevisSimulator() {
   const packParam = searchParams.get("pack");
 
   const [step, setStep] = useState(() => {
-    if (packParam === "maintenance") return 2;
+    if (packParam === "maintenance") return 3;
     if (packParam === "starter" || packParam === "vitrine-pro" || packParam === "sur-mesure") return 1;
     return 0;
   });
@@ -138,12 +140,13 @@ export default function DevisSimulator() {
     if (packParam === "maintenance") return "maintenance";
     return "";
   });
+  const [withMaintenance, setWithMaintenance] = useState<boolean | null>(null);
   const [timeline, setTimeline] = useState("");
   const [formData, setFormData] = useState({ name: "", email: "", message: "", consent: false });
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  const canContinue = [selectedPack !== "", timeline !== ""];
-  const isDone = step === 2;
+  const canContinue = [selectedPack !== "", withMaintenance !== null, timeline !== ""];
+  const isDone = step === 3;
 
   useEffect(() => {
     if (!isDone) return;
@@ -155,9 +158,10 @@ export default function DevisSimulator() {
     } else {
       const q = getQuote(selectedPack);
       const timelineLabel = timelines.find((t) => t.id === timeline)?.label ?? "";
+      const maintenanceLine = withMaintenance ? "\n+ Maintenance Sérénité : 59€/mois" : "";
       setFormData((f) => ({
         ...f,
-        message: `Pack : ${q.planLabel} (${q.price})\nDélai souhaité : ${timelineLabel}\n\nBonjour, je souhaite recevoir un devis détaillé pour ce projet.`,
+        message: `Pack : ${q.planLabel} (${q.price})${maintenanceLine}\nDélai souhaité : ${timelineLabel}\n\nBonjour, je souhaite recevoir un devis détaillé pour ce projet.`,
       }));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -180,13 +184,21 @@ export default function DevisSimulator() {
 
   function next() {
     setDir(1);
-    if (step === 0 && selectedPack === "maintenance") setStep(2);
+    if (step === 0 && selectedPack === "maintenance") setStep(3);
     else setStep((s) => s + 1);
   }
   function prev() { setDir(-1); setStep((s) => s - 1); }
+
+  // Auto-advance from Options step on Yes/No click
+  function selectMaintenance(val: boolean) {
+    setWithMaintenance(val);
+    setDir(1);
+    setStep(2);
+  }
+
   function restart() {
     setDir(-1); setStep(0);
-    setSelectedPack(""); setTimeline("");
+    setSelectedPack(""); setWithMaintenance(null); setTimeline("");
     setFormData({ name: "", email: "", message: "", consent: false });
     setFormStatus("idle");
   }
@@ -201,7 +213,7 @@ export default function DevisSimulator() {
         <div className="text-center mb-12">
           <span className="text-accent text-sm font-semibold uppercase tracking-widest">Simulateur</span>
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mt-2">Estimez votre projet</h1>
-          <p className="text-muted mt-3 text-base">2 questions pour une estimation personnalisée.</p>
+          <p className="text-muted mt-3 text-base">Quelques questions pour une estimation personnalisée.</p>
         </div>
 
         {/* Progress bar */}
@@ -232,7 +244,7 @@ export default function DevisSimulator() {
           {!isDone && (
             <motion.div key={step} custom={dir} variants={slide} initial="enter" animate="center" exit="exit">
 
-              {/* Step 1 — Choix du pack */}
+              {/* Step 0 — Choix du pack */}
               {step === 0 && (
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold text-foreground mb-6">Quel pack vous correspond ?</h2>
@@ -255,8 +267,68 @@ export default function DevisSimulator() {
                 </div>
               )}
 
-              {/* Step 2 — Délai */}
+              {/* Step 1 — Options (Maintenance upsell) */}
               {step === 1 && (
+                <div className="space-y-5">
+                  <div className="mb-6">
+                    <h2 className="text-xl font-semibold text-foreground">Souhaitez-vous ajouter la Maintenance Sérénité ?</h2>
+                    <p className="text-muted text-sm mt-2">Hébergement, sécurité et 1h de modifications · 59€/mois · Sans engagement</p>
+                  </div>
+
+                  {/* Oui */}
+                  <button
+                    onClick={() => selectMaintenance(true)}
+                    className={`w-full text-left p-5 rounded-2xl border transition-all duration-200 ${
+                      withMaintenance === true
+                        ? "border-accent bg-accent/10 shadow-glow"
+                        : "border-black/10 dark:border-white/10 hover:border-accent/40 bg-black/[0.03] dark:bg-white/[0.02]"
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`p-3 rounded-xl shrink-0 ${withMaintenance === true ? "bg-accent/20" : "bg-black/5 dark:bg-white/5"}`}>
+                        <Shield size={22} className={withMaintenance === true ? "text-accent" : "text-muted"} />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-foreground">Oui, l&apos;ajouter</p>
+                        <p className="text-muted text-sm">+ 59€/mois · résiliable à tout moment</p>
+                      </div>
+                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                        withMaintenance === true ? "bg-accent border-accent" : "border-black/20 dark:border-white/20"
+                      }`}>
+                        {withMaintenance === true && <Check size={13} className="text-white" />}
+                      </div>
+                    </div>
+                  </button>
+
+                  {/* Non */}
+                  <button
+                    onClick={() => selectMaintenance(false)}
+                    className={`w-full text-left p-5 rounded-2xl border transition-all duration-200 ${
+                      withMaintenance === false
+                        ? "border-black/20 dark:border-white/20 bg-black/[0.05] dark:bg-white/[0.04]"
+                        : "border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 bg-black/[0.03] dark:bg-white/[0.02]"
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`p-3 rounded-xl shrink-0 ${withMaintenance === false ? "bg-black/8 dark:bg-white/8" : "bg-black/5 dark:bg-white/5"}`}>
+                        <X size={22} className="text-muted" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="font-semibold text-foreground">Non merci</p>
+                        <p className="text-muted text-sm">Je gère moi-même l&apos;hébergement</p>
+                      </div>
+                      <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-all ${
+                        withMaintenance === false ? "bg-foreground/20 border-foreground/30" : "border-black/20 dark:border-white/20"
+                      }`}>
+                        {withMaintenance === false && <Check size={13} className="text-foreground" />}
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              )}
+
+              {/* Step 2 — Délai */}
+              {step === 2 && (
                 <div className="space-y-4">
                   <h2 className="text-xl font-semibold text-foreground mb-6">Délai souhaité ?</h2>
                   {timelines.map(({ id, icon: Icon, label, desc }) => (
@@ -311,9 +383,17 @@ export default function DevisSimulator() {
                 }`}>
                   {quote.price}
                 </div>
-                <div className="text-accent font-semibold text-sm mt-2">{quote.plan === "maintenance" ? quote.planLabel : `Pack ${quote.planLabel}`}</div>
+                <div className="text-accent font-semibold text-sm mt-2">
+                  {quote.plan === "maintenance" ? quote.planLabel : `Pack ${quote.planLabel}`}
+                </div>
+                {withMaintenance && quote.plan !== "maintenance" && (
+                  <div className="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20">
+                    <Shield size={12} className="text-accent" />
+                    <span className="text-accent text-xs font-medium">+ Maintenance Sérénité 59€/mois</span>
+                  </div>
+                )}
                 {quote.plan !== "maintenance" && (
-                  <div className="text-muted text-xs mt-1.5">
+                  <div className="text-muted text-xs mt-2">
                     Délai : {timelines.find((t) => t.id === timeline)?.label}
                   </div>
                 )}
@@ -332,6 +412,22 @@ export default function DevisSimulator() {
                       {feature}
                     </li>
                   ))}
+                  {withMaintenance && quote.plan !== "maintenance" && (
+                    <>
+                      <li className="flex items-center gap-3 text-sm text-accent font-medium pt-1 border-t border-accent/10 mt-1">
+                        <Shield size={15} className="text-accent shrink-0" />
+                        Hébergement haute disponibilité
+                      </li>
+                      <li className="flex items-center gap-3 text-sm text-accent font-medium">
+                        <Shield size={15} className="text-accent shrink-0" />
+                        Sécurité &amp; sauvegardes automatiques
+                      </li>
+                      <li className="flex items-center gap-3 text-sm text-accent font-medium">
+                        <Shield size={15} className="text-accent shrink-0" />
+                        1h de modifications par mois
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
 
@@ -340,12 +436,20 @@ export default function DevisSimulator() {
                 <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-4">Récapitulatif</p>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted">Pack</span>
-                  <span className="text-foreground font-medium">{quote.plan === "maintenance" ? quote.planLabel : `Pack ${quote.planLabel}`}</span>
+                  <span className="text-foreground font-medium">
+                    {quote.plan === "maintenance" ? quote.planLabel : `Pack ${quote.planLabel}`}
+                  </span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted">Prix</span>
                   <span className="text-foreground font-medium">{quote.price}</span>
                 </div>
+                {withMaintenance && quote.plan !== "maintenance" && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted">+ Maintenance Sérénité</span>
+                    <span className="text-accent font-medium">59€/mois</span>
+                  </div>
+                )}
                 {quote.plan !== "maintenance" && (
                   <div className="flex justify-between text-sm">
                     <span className="text-muted">Délai</span>
@@ -386,6 +490,12 @@ export default function DevisSimulator() {
                       <span className="text-muted">À la livraison</span>
                       <span className="text-foreground font-medium">70% solde</span>
                     </div>
+                    {withMaintenance && (
+                      <div className="border-t border-black/[0.06] dark:border-white/[0.06] pt-3 flex justify-between text-sm">
+                        <span className="text-muted">Maintenance — facturation</span>
+                        <span className="text-foreground font-medium">Mensuelle dès la livraison</span>
+                      </div>
+                    )}
                   </>
                 )}
               </div>
@@ -427,7 +537,7 @@ export default function DevisSimulator() {
                       required
                       className="w-full px-4 py-3 rounded-xl border border-black/10 dark:border-white/10 bg-transparent text-foreground placeholder:text-muted text-sm focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all resize-none"
                     />
-                                    <label className="flex items-start gap-3 cursor-pointer group">
+                    <label className="flex items-start gap-3 cursor-pointer group">
                       <input
                         type="checkbox"
                         checked={formData.consent}
@@ -478,8 +588,8 @@ export default function DevisSimulator() {
           )}
         </AnimatePresence>
 
-        {/* Navigation */}
-        {!isDone && (
+        {/* Navigation — hidden on Options step (auto-advance) */}
+        {!isDone && step !== 1 && (
           <div className="flex items-center justify-between mt-8 pt-6 border-t border-black/[0.06] dark:border-white/[0.06]">
             <button
               onClick={prev}
@@ -494,8 +604,21 @@ export default function DevisSimulator() {
               disabled={!canContinue[step]}
               className="flex items-center gap-1.5 bg-accent text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-glow hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
             >
-              {step === 1 || (step === 0 && selectedPack === "maintenance") ? "Voir l'estimation" : "Continuer"}
+              {step === 2 || (step === 0 && selectedPack === "maintenance") ? "Voir l'estimation" : "Continuer"}
               <ChevronRight size={17} />
+            </button>
+          </div>
+        )}
+
+        {/* Retour seul sur l'étape Options */}
+        {!isDone && step === 1 && (
+          <div className="flex items-center mt-8 pt-6 border-t border-black/[0.06] dark:border-white/[0.06]">
+            <button
+              onClick={prev}
+              className="flex items-center gap-1.5 text-sm font-medium text-muted hover:text-foreground transition-colors"
+            >
+              <ChevronLeft size={17} />
+              Retour
             </button>
           </div>
         )}

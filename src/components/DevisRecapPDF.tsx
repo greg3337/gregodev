@@ -158,9 +158,6 @@ const s = StyleSheet.create({
 
   // Provider block
   providerBrand: { fontSize: 18, fontFamily: "Helvetica-Bold", color: C.ink },
-  logoD: { fontSize: 18, fontFamily: "Helvetica-Bold", color: "#00D2FF" },
-  logoE: { fontSize: 18, fontFamily: "Helvetica-Bold", color: "#7B5EA7" },
-  logoV: { fontSize: 18, fontFamily: "Helvetica-Bold", color: "#9B59B6" },
   providerLine: { fontSize: 8, color: C.inkMid, marginTop: 2 },
   providerBold: { fontFamily: "Helvetica-Bold", color: C.ink },
 
@@ -395,12 +392,12 @@ export function DevisRecapPDF({
         <View style={s.header}>
           {/* Prestataire */}
           <View style={s.headerHalf}>
-            <View style={{ flexDirection: "row", marginBottom: 8 }}>
-              <Text style={s.providerBrand}>Grego</Text>
-              <Text style={s.logoD}>D</Text>
-              <Text style={s.logoE}>e</Text>
-              <Text style={s.logoV}>v</Text>
-            </View>
+            <Text style={{ fontSize: 18, fontFamily: "Helvetica-Bold", marginBottom: 8 }}>
+              <Text style={{ color: C.ink }}>Grego</Text>
+              <Text style={{ color: "#00D2FF" }}>D</Text>
+              <Text style={{ color: "#7B5EA7" }}>e</Text>
+              <Text style={{ color: "#9B59B6" }}>v</Text>
+            </Text>
             <Text style={s.providerLine}><Text style={s.providerBold}>{PROVIDER.name}</Text> — {PROVIDER.status}</Text>
             <Text style={s.providerLine}>{PROVIDER.address}</Text>
             <Text style={s.providerLine}>{PROVIDER.city}</Text>

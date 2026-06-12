@@ -392,11 +392,8 @@ export function DevisRecapPDF({
         <View style={s.header}>
           {/* Prestataire */}
           <View style={s.headerHalf}>
-            <Text style={{ fontSize: 18, fontFamily: "Helvetica-Bold", marginBottom: 8 }}>
-              <Text style={{ color: C.ink }}>Grego</Text>
-              <Text style={{ color: "#00D2FF" }}>D</Text>
-              <Text style={{ color: "#7B5EA7" }}>e</Text>
-              <Text style={{ color: "#9B59B6" }}>v</Text>
+            <Text style={{ fontSize: 18, fontFamily: "Helvetica-Bold", color: C.ink, marginBottom: 8 }}>
+              GregoDev
             </Text>
             <Text style={s.providerLine}><Text style={s.providerBold}>{PROVIDER.name}</Text> — {PROVIDER.status}</Text>
             <Text style={s.providerLine}>{PROVIDER.address}</Text>

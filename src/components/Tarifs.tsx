@@ -24,7 +24,7 @@ const plans = [
       "Formulaire de contact",
       "Déploiement inclus",
     ],
-    featuresNote: "Livraison en 7 jours · 1 révision incluse · Basé sur templates optimisés",
+    featuresNote: "Livraison en 7 jours",
     cta: "Choisir Starter",
     href: "/devis?pack=starter",
     highlighted: false,

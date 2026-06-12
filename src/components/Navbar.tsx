@@ -15,6 +15,7 @@ const NAV_ITEMS = [
   { label: "Devis", href: "/devis" },
   { label: "Projets", anchor: "projets" },
   { label: "Blog", href: "/blog" },
+  { label: "FAQ", anchor: "faq" },
   { label: "Contact", anchor: "contact" },
 ];
 

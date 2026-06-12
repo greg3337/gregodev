@@ -158,7 +158,9 @@ const s = StyleSheet.create({
 
   // Provider block
   providerBrand: { fontSize: 18, fontFamily: "Helvetica-Bold", color: C.ink },
-  providerAccent: { fontSize: 18, fontFamily: "Helvetica-Bold", color: C.accent },
+  logoD: { fontSize: 18, fontFamily: "Helvetica-Bold", color: "#00D2FF" },
+  logoE: { fontSize: 18, fontFamily: "Helvetica-Bold", color: "#7B5EA7" },
+  logoV: { fontSize: 18, fontFamily: "Helvetica-Bold", color: "#9B59B6" },
   providerLine: { fontSize: 8, color: C.inkMid, marginTop: 2 },
   providerBold: { fontFamily: "Helvetica-Bold", color: C.ink },
 
@@ -395,7 +397,9 @@ export function DevisRecapPDF({
           <View style={s.headerHalf}>
             <View style={{ flexDirection: "row", marginBottom: 8 }}>
               <Text style={s.providerBrand}>Grego</Text>
-              <Text style={s.providerAccent}>Dev</Text>
+              <Text style={s.logoD}>D</Text>
+              <Text style={s.logoE}>e</Text>
+              <Text style={s.logoV}>v</Text>
             </View>
             <Text style={s.providerLine}><Text style={s.providerBold}>{PROVIDER.name}</Text> — {PROVIDER.status}</Text>
             <Text style={s.providerLine}>{PROVIDER.address}</Text>

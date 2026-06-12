@@ -120,17 +120,15 @@ const MAINTENANCE_ADDON = {
 // ─── Colors ───────────────────────────────────────────────────────────────────
 
 const C = {
+  // Brand accent — used ONLY in the "Dev" wordmark and the TOTAL TTC block
   accent: "#00D2FF",
-  accentBg: "rgba(0,210,255,0.08)",
-  accentBorder: "rgba(0,210,255,0.30)",
-  dark: "#0F0F1A",
-  medium: "#334155",
-  muted: "#64748B",
-  light: "#94A3B8",
-  lighter: "#CBD5E1",
-  border: "#E2E8F0",
-  surface: "#F8FAFC",
-  tableHead: "#1E293B",
+  // Dark background — used ONLY in the TOTAL TTC row
+  totalBg: "#0F0F1A",
+  // Black/white document palette
+  ink: "#111111",
+  inkMid: "#444444",
+  inkLight: "#777777",
+  border: "#CCCCCC",
   white: "#FFFFFF",
 };
 
@@ -145,7 +143,7 @@ const s = StyleSheet.create({
   },
 
   // ── Structure
-  topBar: { height: 5, backgroundColor: C.accent },
+  topBar: { height: 4, backgroundColor: C.ink },
 
   header: {
     flexDirection: "row",
@@ -159,26 +157,26 @@ const s = StyleSheet.create({
   headerHalf: { flex: 1 },
 
   // Provider block
-  providerBrand: { fontSize: 18, fontFamily: "Helvetica-Bold", color: C.dark },
+  providerBrand: { fontSize: 18, fontFamily: "Helvetica-Bold", color: C.ink },
   providerAccent: { fontSize: 18, fontFamily: "Helvetica-Bold", color: C.accent },
-  providerLine: { fontSize: 8, color: C.muted, marginTop: 2 },
-  providerBold: { fontFamily: "Helvetica-Bold", color: C.medium },
+  providerLine: { fontSize: 8, color: C.inkMid, marginTop: 2 },
+  providerBold: { fontFamily: "Helvetica-Bold", color: C.ink },
 
   // Client block
   clientLabel: {
     fontSize: 7,
     fontFamily: "Helvetica-Bold",
-    color: C.muted,
+    color: C.inkMid,
     letterSpacing: 1.5,
     marginBottom: 6,
   },
-  clientName: { fontSize: 10, fontFamily: "Helvetica-Bold", color: C.dark, marginBottom: 2 },
-  clientLine: { fontSize: 8, color: C.muted, marginBottom: 1 },
+  clientName: { fontSize: 10, fontFamily: "Helvetica-Bold", color: C.ink, marginBottom: 2 },
+  clientLine: { fontSize: 8, color: C.inkMid, marginBottom: 1 },
 
   // ── Quote metadata bar
   metaBar: {
     flexDirection: "row",
-    backgroundColor: C.surface,
+    backgroundColor: C.white,
     borderBottomWidth: 1,
     borderBottomColor: C.border,
     paddingHorizontal: 36,
@@ -186,8 +184,8 @@ const s = StyleSheet.create({
     gap: 32,
   },
   metaItem: {},
-  metaKey: { fontSize: 7, fontFamily: "Helvetica-Bold", color: C.muted, letterSpacing: 1.2, marginBottom: 2 },
-  metaVal: { fontSize: 9, fontFamily: "Helvetica-Bold", color: C.dark },
+  metaKey: { fontSize: 7, fontFamily: "Helvetica-Bold", color: C.inkMid, letterSpacing: 1.2, marginBottom: 2 },
+  metaVal: { fontSize: 9, fontFamily: "Helvetica-Bold", color: C.ink },
 
   // ── Body
   body: { paddingHorizontal: 36, paddingTop: 18 },
@@ -195,14 +193,17 @@ const s = StyleSheet.create({
   // ── Table
   tableHeader: {
     flexDirection: "row",
-    backgroundColor: C.tableHead,
-    borderRadius: 4,
+    backgroundColor: C.white,
+    borderTopWidth: 1,
+    borderTopColor: C.border,
+    borderBottomWidth: 2,
+    borderBottomColor: C.ink,
     paddingVertical: 7,
     paddingHorizontal: 10,
     marginBottom: 2,
   },
-  tableHeaderDesig: { flex: 1, fontSize: 7, fontFamily: "Helvetica-Bold", color: C.lighter, letterSpacing: 1 },
-  tableHeaderPrice: { width: 90, textAlign: "right", fontSize: 7, fontFamily: "Helvetica-Bold", color: C.lighter, letterSpacing: 1 },
+  tableHeaderDesig: { flex: 1, fontSize: 7, fontFamily: "Helvetica-Bold", color: C.ink, letterSpacing: 1 },
+  tableHeaderPrice: { width: 90, textAlign: "right", fontSize: 7, fontFamily: "Helvetica-Bold", color: C.ink, letterSpacing: 1 },
 
   tableRow: {
     flexDirection: "row",
@@ -217,27 +218,25 @@ const s = StyleSheet.create({
     borderBottomColor: C.border,
     paddingVertical: 9,
     paddingHorizontal: 10,
-    backgroundColor: C.surface,
   },
   tableDesig: { flex: 1 },
-  tableTitle: { fontSize: 9, fontFamily: "Helvetica-Bold", color: C.dark, marginBottom: 4 },
-  tableFeature: { fontSize: 7.5, color: C.muted, marginBottom: 2, paddingLeft: 8 },
+  tableTitle: { fontSize: 9, fontFamily: "Helvetica-Bold", color: C.ink, marginBottom: 4 },
+  tableFeature: { fontSize: 7.5, color: C.inkMid, marginBottom: 2, paddingLeft: 8 },
   tablePrice: {
     width: 90,
     textAlign: "right",
     fontSize: 10,
     fontFamily: "Helvetica-Bold",
-    color: C.dark,
+    color: C.ink,
     paddingTop: 1,
   },
-  tablePriceUnit: { fontSize: 7, color: C.muted, marginTop: 3, textAlign: "right" },
+  tablePriceUnit: { fontSize: 7, color: C.inkMid, marginTop: 3, textAlign: "right" },
 
   // ── Totals
   totals: {
     marginTop: 10,
     borderWidth: 1,
     borderColor: C.border,
-    borderRadius: 6,
     overflow: "hidden",
   },
   totalRow: {
@@ -254,8 +253,8 @@ const s = StyleSheet.create({
     paddingVertical: 7,
     paddingHorizontal: 12,
   },
-  totalKey: { fontSize: 8.5, color: C.muted },
-  totalVal: { fontSize: 8.5, fontFamily: "Helvetica-Bold", color: C.dark },
+  totalKey: { fontSize: 8.5, color: C.inkMid },
+  totalVal: { fontSize: 8.5, fontFamily: "Helvetica-Bold", color: C.ink },
   tvaRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -263,17 +262,16 @@ const s = StyleSheet.create({
     paddingHorizontal: 12,
     borderBottomWidth: 1,
     borderBottomColor: C.border,
-    backgroundColor: C.surface,
   },
-  tvaKey: { fontSize: 8, color: C.muted, fontFamily: "Helvetica-Oblique" },
-  tvaVal: { fontSize: 8, color: C.muted, fontFamily: "Helvetica-Oblique" },
+  tvaKey: { fontSize: 8, color: C.inkMid, fontFamily: "Helvetica-Oblique" },
+  tvaVal: { fontSize: 8, color: C.inkMid, fontFamily: "Helvetica-Oblique" },
   grandTotalRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal: 12,
-    backgroundColor: C.dark,
+    backgroundColor: C.totalBg,
   },
   grandTotalKey: { fontSize: 9, fontFamily: "Helvetica-Bold", color: C.white },
   grandTotalVal: { fontSize: 14, fontFamily: "Helvetica-Bold", color: C.accent },
@@ -288,39 +286,36 @@ const s = StyleSheet.create({
     flex: 1,
     borderWidth: 1,
     borderColor: C.border,
-    borderRadius: 6,
     padding: 10,
   },
   conditionTitle: {
     fontSize: 7,
     fontFamily: "Helvetica-Bold",
-    color: C.muted,
+    color: C.inkMid,
     letterSpacing: 1.2,
     marginBottom: 5,
   },
-  conditionText: { fontSize: 8, color: C.medium, lineHeight: 1.5 },
+  conditionText: { fontSize: 8, color: C.ink, lineHeight: 1.5 },
 
   // ── Bon pour accord
   bonPourAccord: {
     marginTop: 14,
     borderWidth: 1,
-    borderColor: C.accentBorder,
-    borderRadius: 6,
-    backgroundColor: C.accentBg,
+    borderColor: C.border,
     padding: 14,
   },
   bpaTitle: {
     fontSize: 7,
     fontFamily: "Helvetica-Bold",
-    color: C.accent,
+    color: C.ink,
     letterSpacing: 1.5,
     marginBottom: 10,
   },
   bpaCols: { flexDirection: "row", gap: 20 },
   bpaCol: { flex: 1 },
-  bpaLabel: { fontSize: 7.5, color: C.muted, marginBottom: 16 },
-  bpaLine: { borderBottomWidth: 1, borderBottomColor: C.lighter, marginBottom: 4 },
-  bpaLineSub: { fontSize: 7, color: C.light },
+  bpaLabel: { fontSize: 7.5, color: C.inkMid, marginBottom: 16 },
+  bpaLine: { borderBottomWidth: 1, borderBottomColor: C.border, marginBottom: 4 },
+  bpaLineSub: { fontSize: 7, color: C.inkLight },
 
   // ── Footer
   footer: {
@@ -337,8 +332,8 @@ const s = StyleSheet.create({
     alignItems: "center",
     backgroundColor: C.white,
   },
-  footerLeft: { fontSize: 7, color: C.light },
-  footerRight: { fontSize: 7, fontFamily: "Helvetica-Bold", color: C.accent },
+  footerLeft: { fontSize: 7, color: C.inkLight },
+  footerRight: { fontSize: 7, fontFamily: "Helvetica-Bold", color: C.inkMid },
 });
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -511,7 +506,7 @@ export function DevisRecapPDF({
               <Text style={s.conditionTitle}>DÉLAI DE RÉALISATION ESTIMÉ</Text>
               <Text style={s.conditionText}>{pack.delay}</Text>
               {packId === "sur-mesure" && (
-                <Text style={[s.conditionText, { marginTop: 4, fontFamily: "Helvetica-Oblique", color: C.light }]}>
+                <Text style={[s.conditionText, { marginTop: 4, fontFamily: "Helvetica-Oblique", color: C.inkLight }]}>
                   Le délai définitif sera fixé lors du cadrage du projet.
                 </Text>
               )}

@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import {
   ChevronRight, ChevronLeft, Check, Zap, Clock, Calendar,
-  Globe, Monitor, Server, Sparkles, RefreshCw, ArrowRight,
+  Globe, Monitor, Server, Sparkles, RefreshCw, ArrowRight, Shield,
 } from "lucide-react";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
@@ -31,6 +31,13 @@ const packOptions = [
     label: "Sur-mesure",
     sublabel: "Application web, SaaS ou outil interne",
     price: "À partir de 2 000€",
+  },
+  {
+    id: "maintenance",
+    icon: Shield,
+    label: 'Maintenance "Sérénité"',
+    sublabel: "Hébergement, sécurité et modifications mensuelles",
+    price: "59€/mois",
   },
 ];
 
@@ -68,6 +75,14 @@ const packFeatures = {
     "Dashboard admin",
     "Support 3 mois",
   ],
+  maintenance: [
+    "Hébergement haute disponibilité",
+    "Mises à jour de sécurité",
+    "Sauvegardes automatiques quotidiennes",
+    "2h de modifications par mois",
+    "Support prioritaire",
+    "Rapport mensuel",
+  ],
 } as const;
 
 type Plan = keyof typeof packFeatures;
@@ -75,6 +90,7 @@ type Plan = keyof typeof packFeatures;
 function getQuote(plan: string): { plan: Plan; price: string; planLabel: string } {
   if (plan === "starter") return { plan: "starter", price: "490€", planLabel: "Starter" };
   if (plan === "vitrine-pro") return { plan: "vitrine-pro", price: "1 500€", planLabel: "Vitrine Pro" };
+  if (plan === "maintenance") return { plan: "maintenance", price: "59€/mois", planLabel: 'Maintenance "Sérénité"' };
   return { plan: "sur-mesure", price: "À partir de 2 000€", planLabel: "Sur-mesure" };
 }
 
@@ -110,6 +126,7 @@ export default function DevisSimulator() {
   const packParam = searchParams.get("pack");
 
   const [step, setStep] = useState(() => {
+    if (packParam === "maintenance") return 2;
     if (packParam === "starter" || packParam === "vitrine-pro" || packParam === "sur-mesure") return 1;
     return 0;
   });
@@ -118,6 +135,7 @@ export default function DevisSimulator() {
     if (packParam === "starter") return "starter";
     if (packParam === "vitrine-pro") return "vitrine-pro";
     if (packParam === "sur-mesure") return "sur-mesure";
+    if (packParam === "maintenance") return "maintenance";
     return "";
   });
   const [timeline, setTimeline] = useState("");
@@ -129,12 +147,19 @@ export default function DevisSimulator() {
 
   useEffect(() => {
     if (!isDone) return;
-    const q = getQuote(selectedPack);
-    const timelineLabel = timelines.find((t) => t.id === timeline)?.label ?? "";
-    setFormData((f) => ({
-      ...f,
-      message: `Pack : ${q.planLabel} (${q.price})\nDélai souhaité : ${timelineLabel}\n\nBonjour, je souhaite recevoir un devis détaillé pour ce projet.`,
-    }));
+    if (selectedPack === "maintenance") {
+      setFormData((f) => ({
+        ...f,
+        message: `Pack : Maintenance "Sérénité" (59€/mois)\n\nBonjour, je souhaite souscrire à l'offre de maintenance mensuelle.`,
+      }));
+    } else {
+      const q = getQuote(selectedPack);
+      const timelineLabel = timelines.find((t) => t.id === timeline)?.label ?? "";
+      setFormData((f) => ({
+        ...f,
+        message: `Pack : ${q.planLabel} (${q.price})\nDélai souhaité : ${timelineLabel}\n\nBonjour, je souhaite recevoir un devis détaillé pour ce projet.`,
+      }));
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDone]);
 
@@ -153,7 +178,11 @@ export default function DevisSimulator() {
     }
   }
 
-  function next() { setDir(1); setStep((s) => s + 1); }
+  function next() {
+    setDir(1);
+    if (step === 0 && selectedPack === "maintenance") setStep(2);
+    else setStep((s) => s + 1);
+  }
   function prev() { setDir(-1); setStep((s) => s - 1); }
   function restart() {
     setDir(-1); setStep(0);
@@ -273,19 +302,24 @@ export default function DevisSimulator() {
 
               {/* Price */}
               <div className={`rounded-2xl border p-8 text-center ${
-                quote.plan !== "sur-mesure"
-                  ? "border-accent/50 bg-accent/[0.06] shadow-glow"
-                  : "border-accent/30 bg-accent/[0.04]"
+                quote.plan === "sur-mesure"
+                  ? "border-accent/30 bg-accent/[0.04]"
+                  : "border-accent/50 bg-accent/[0.06] shadow-glow"
               }`}>
                 <div className={`font-bold text-foreground mb-2 ${
                   quote.plan === "sur-mesure" ? "text-4xl" : "text-6xl"
                 }`}>
                   {quote.price}
                 </div>
-                <div className="text-accent font-semibold text-sm mt-2">Pack {quote.planLabel}</div>
-                <div className="text-muted text-xs mt-1.5">
-                  Délai : {timelines.find((t) => t.id === timeline)?.label}
-                </div>
+                <div className="text-accent font-semibold text-sm mt-2">{quote.plan === "maintenance" ? quote.planLabel : `Pack ${quote.planLabel}`}</div>
+                {quote.plan !== "maintenance" && (
+                  <div className="text-muted text-xs mt-1.5">
+                    Délai : {timelines.find((t) => t.id === timeline)?.label}
+                  </div>
+                )}
+                {quote.plan === "maintenance" && (
+                  <div className="text-muted text-xs mt-1.5">Abonnement mensuel · sans engagement</div>
+                )}
               </div>
 
               {/* Included features */}
@@ -306,31 +340,54 @@ export default function DevisSimulator() {
                 <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-4">Récapitulatif</p>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted">Pack</span>
-                  <span className="text-foreground font-medium">Pack {quote.planLabel}</span>
+                  <span className="text-foreground font-medium">{quote.plan === "maintenance" ? quote.planLabel : `Pack ${quote.planLabel}`}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted">Prix</span>
                   <span className="text-foreground font-medium">{quote.price}</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted">Délai</span>
-                  <span className="text-foreground font-medium">
-                    {timelines.find((t) => t.id === timeline)?.label}
-                  </span>
-                </div>
+                {quote.plan !== "maintenance" && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted">Délai</span>
+                    <span className="text-foreground font-medium">
+                      {timelines.find((t) => t.id === timeline)?.label}
+                    </span>
+                  </div>
+                )}
+                {quote.plan === "maintenance" && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted">Engagement</span>
+                    <span className="text-foreground font-medium">Sans engagement</span>
+                  </div>
+                )}
               </div>
 
               {/* Modalités de paiement */}
               <div className="card-border rounded-2xl p-6 bg-black/[0.03] dark:bg-white/[0.02] space-y-3">
                 <p className="text-xs font-semibold text-muted uppercase tracking-wide mb-4">Modalités de paiement</p>
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted">À la signature du devis</span>
-                  <span className="text-foreground font-medium">30% d&apos;acompte</span>
-                </div>
-                <div className="border-t border-black/[0.06] dark:border-white/[0.06] pt-3 flex justify-between text-sm">
-                  <span className="text-muted">À la livraison</span>
-                  <span className="text-foreground font-medium">70% solde</span>
-                </div>
+                {quote.plan === "maintenance" ? (
+                  <>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted">Facturation</span>
+                      <span className="text-foreground font-medium">Mensuelle</span>
+                    </div>
+                    <div className="border-t border-black/[0.06] dark:border-white/[0.06] pt-3 flex justify-between text-sm">
+                      <span className="text-muted">Résiliation</span>
+                      <span className="text-foreground font-medium">À tout moment</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted">À la signature du devis</span>
+                      <span className="text-foreground font-medium">30% d&apos;acompte</span>
+                    </div>
+                    <div className="border-t border-black/[0.06] dark:border-white/[0.06] pt-3 flex justify-between text-sm">
+                      <span className="text-muted">À la livraison</span>
+                      <span className="text-foreground font-medium">70% solde</span>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Contact form */}
@@ -437,7 +494,7 @@ export default function DevisSimulator() {
               disabled={!canContinue[step]}
               className="flex items-center gap-1.5 bg-accent text-white px-6 py-3 rounded-xl font-semibold text-sm shadow-glow hover:bg-accent/90 disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-200"
             >
-              {step === 1 ? "Voir l'estimation" : "Continuer"}
+              {step === 1 || (step === 0 && selectedPack === "maintenance") ? "Voir l'estimation" : "Continuer"}
               <ChevronRight size={17} />
             </button>
           </div>
